@@ -1,0 +1,11 @@
+License: GPL Version 3. 
+
+Prior versions of the spg algorithm are licensed under GPL version 2 or later 
+and are available at the TANGO project 
+<http://www.ime.usp.br/~egbirgin/tango/downloads.php>
+
+The sane and dfsane algorithms are release under GPL version 3 with the
+agreement of Marcos Raydan and co-authors, who retain copyright on the
+original work. 
+
+Significant modification included  here are Copyright 2008, Ravi Varadhan.
