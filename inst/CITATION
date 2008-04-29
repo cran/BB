@@ -1,0 +1,17 @@
+citHeader("To cite package 'BB' in publications use:")
+
+citEntry(entry="article",
+  author  = personList(as.person("R. Varadhan"),
+                       as.person("P. D. Gilbert")),
+  year    = 2008,
+  title   = "BB: An R package of Barzilai-Borwein spectral methods for solving 
+      and optimizing large-scale nonlinear systems",
+  journal = "Unpublished",
+
+  textVersion = 
+     paste("R. Varadhan and P. D. Gilbert (2008) ", 
+           "BB: An R package of Barzilai-Borwein spectral methods for solving ",
+           "and optimizing large-scale nonlinear systems, Unpublished",
+         "<http://www.jhsph.edu/agingandhealth/People/Faculty/Varadhan.html>",
+               sep="")
+  )

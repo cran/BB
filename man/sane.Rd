@@ -45,7 +45,11 @@
  The function \code{sane} implements a non-monotone spectral residual method for finding a root of nonlinear systems.  It stands for "spectral approach for nonlinear equations".  
 It differs from the function \code{dfsane} in that it requires an approximation of a directional derivative at every iteration of the merit function $F(x)^t F(x)$.
 
-R adaptation, with significant modifications, by Ravi Varadhan, Johns Hopkins University (March 25, 2008), from the original FORTRAN code of La Cruz and Raydan (2003).  
+R adaptation, with significant modifications, by Ravi Varadhan, Johns Hopkins 
+University (March 25, 2008), from the original FORTRAN code of La Cruz and 
+Raydan (2003) 
+available at \url{http://kuainasi.ciens.ucv.ve/ccct/mraydan/mraydan.html}.  
+.  
 
 A major modification in our R adaptation of the original FORTRAN code is the availability of 3 different options for Barzilai-Borwein (BB) steplengths: \code{method = 1} is the BB 
 steplength used in LaCruz and Raydan (2003);  \code{method = 2} is equivalent to the other steplength proposed in Barzilai and Borwein's (1988) original paper.  
@@ -81,7 +85,9 @@ the L2-norm of \code{fn} is printed at every 10-th iteration.}
 
    L Grippo, F Lampariello, and S Lucidi (1986),  A nonmonotone line search technique for Newton's method,  \emph{SIAM J on Numerical Analysis}, 23, 707-716. 
 
-   W LaCruz, and M Raydan (2003),  Nonmonotone spectral methods for large-scale nonlinear systems, \emph{Optimization Methods and Software}, 18, 583-599. 
+   W LaCruz, and M Raydan (2003),  Nonmonotone spectral methods for large-scale 
+   nonlinear systems, \emph{Optimization Methods and Software}, 18, 583-599
+   (see \url{http://kuainasi.ciens.ucv.ve/ccct/mraydan/mraydan.html}). 
 
    R Varadhan and C Roland (2008),  Simple and globally-convergent methods for accelerating the convergence of any EM algorithm,  \emph{Scandinavian J Statistics}, doi: 10.1111/j.1467-9469.2007.00585.x.  
 

@@ -70,14 +70,24 @@
 }
 
 \details{
-R adaptation, with significant modifications, by Ravi Varadhan, Johns Hopkins University (March 25, 2008), from the original FORTRAN code of La Cruz, Martinez, and Raydan (2006).  
+R adaptation, with significant modifications, by Ravi Varadhan, Johns
+Hopkins University (March 25, 2008), from the original FORTRAN code of
+Birgin, Martinez, and Raydan (2001). 
 
-A major modification in our R adaptation of the original FORTRAN code is the availability of 3 different options for Barzilai-Borwein (BB) steplengths: \code{method = 1} is the BB 
-steplength used in Birgin, Martinez and Raydan (2000);  \code{method = 2} is the other steplength proposed in Barzilai and Borwein's (1988) original paper.  
-Finally, \code{method = 3}, is a new steplength, which was first proposed in Varadhan and Roland (2008) for accelerating the EM algorithm.  
-In fact, Varadhan and Roland (2008) considered 3 similar steplength schemes in their EM acceleration work.  Here, we have chosen \code{method = 3} 
-as the "default" method.  This method may be slightly slower than the other 2 BB steplength schemes, but it generally exhibited more reliable convergence to a better optimum in our experiments.  
-We recommend that the user try the other steplength schemes if the default method does not perform well in their problem.  
+A major modification in our R adaptation of the original FORTRAN code is the 
+availability of 3 different options for Barzilai-Borwein (BB) 
+steplengths: \code{method = 1} is the BB 
+steplength used in Birgin, Martinez and Raydan (2000);  \code{method = 2} is 
+the other steplength proposed in Barzilai and Borwein's (1988) original paper.  
+Finally, \code{method = 3}, is a new steplength, which was first proposed in 
+Varadhan and Roland (2008) for accelerating the EM algorithm.  
+In fact, Varadhan and Roland (2008) considered 3 similar steplength schemes in 
+their EM acceleration work.  Here, we have chosen \code{method = 3} 
+as the "default" method.  This method may be slightly slower than the 
+other 2 BB steplength schemes, but it generally exhibited more reliable 
+convergence to a better optimum in our experiments.  
+We recommend that the user try the other steplength schemes if the default 
+method does not perform well in their problem.  
 
 Argument \code{project} defaults to "NULL", which results in a default box
 projection using constraints defined by vectors \code{lower} and \code{upper}. 

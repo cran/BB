@@ -18,6 +18,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   triter   <- ctrl$triter
   eps      <- ctrl$eps
   
+  grNULL <- is.null(gr)  
   fargs <- list(...)
   ################ local function
   nmls <- function(p, f, d, gtd, lastfv, feval, func, maxfeval, fargs ){
@@ -86,6 +87,10 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   func <- if (maximize) function(par, ...) -fn(par, ...)
                    else function(par, ...)  fn(par, ...)
 
+  grad <- if (maximize & !grNULL) function(par, ...) -gr(par, ...)
+                    else          function(par, ...)  gr(par, ...)
+
+
   # Project initial guess
   par <- try(project(par, lower, upper, ...), silent=TRUE)
  
@@ -106,7 +111,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
     
   f0 <- fbest <- f
  
-  g <- try(gr(par, ...),silent=TRUE)
+  g <- try(grad(par, ...),silent=TRUE)
   
   geval <- geval + 1
  
@@ -164,7 +169,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
       feval <- nmls.ans$feval
       lastfv[(iter %% M) + 1] <- f
  
-      gnew <- try(gr(pnew, ...),silent=TRUE)     
+      gnew <- try(grad(pnew, ...),silent=TRUE)     
       geval <- geval + 1
  
       if (class(gnew)=="try-error" | any(is.nan(gnew)) ){
