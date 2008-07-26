@@ -5,11 +5,11 @@ Description: Barzilai-Borwein Spectral Methods for solving nonlinear system of
  constraints.
 Depends: R (>= 2.6.1)
 Suggests: numDeriv, setRNG
-Version: 2008.5-1
-Date: 2008-4-29
+Version: 2008.7-1
+Date: 2008-7-26
 LazyLoad: yes
 License: GPL-3
 Author: Ravi Varadhan
 Maintainer: Ravi Varadhan and Paul Gilbert <pgilbert@bank-banque-canada.ca>
 URL: http://www.jhsph.edu/agingandhealth/People/Faculty/Varadhan.html
-Packaged: Wed Apr 30 15:47:18 2008; paul
+Packaged: Sat Jul 26 09:15:36 2008; paul

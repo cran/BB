@@ -1,8 +1,14 @@
+           Changes in BB version 2008.7-1
+  
+  o fixed bug in dfsame when tol is already ok initially and while loop is
+    skipped, so flag in result is not set.
+
+
            Changes in BB version 2008.5-1
   
-  o fix a references that was inaccurate and added web links to others.
+  o fixed a references that was inaccurate and added web links to others.
 
-  o fix bug when maximizing a function with analytic gradient supplied, and add
+  o fixed bug when maximizing a function with analytic gradient supplied, and add
     a test of this.
 
   o changed the title (as appears on CRAN) to be more descriptive.
@@ -10,4 +16,4 @@
 
               BB version 2008.4-1
 
-  o first release
+  o first release 
