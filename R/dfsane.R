@@ -102,7 +102,7 @@ dfsane <- function(par, fn, method=2, control=list(), ...) {
 ######################################
 #     MAIN LOOP:  Iteration begins
 ######################################
-    flag <- 0 # for case when tol is already ok initially and while loop is skipped
+    flag <- NULL # for case when tol is already ok initially and while loop is skipped
     while (normF/sqrt(n) > tol & iter <= maxit) {
  
     	# Control of steplength
@@ -160,6 +160,11 @@ dfsane <- function(par, fn, method=2, control=list(), ...) {
     	    cat("iteration: ",iter, " ||F(xn)|| =  ", normF, "\n")
 
     	}   # End of main loop
+
+     if (is.null(flag)) {
+        warning("convergence tolerance satisified at intial parameter values.")
+	flag <- 0
+	}
 
     conv <-
      if (flag==0) {

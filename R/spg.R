@@ -141,6 +141,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   #######################
   #  Main iterative loop
   #######################
+  lsflag <- NULL # for case when tol is already ok initially and while loop is skipped
   while( pginfn > gtol & iter <= maxit ) {
       iter <- iter + 1
  
@@ -218,6 +219,11 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   	}
  
       }   # while condition loop concludes
+
+  if (is.null(lsflag)) {
+        warning("convergence tolerance satisified at intial parameter values.")
+	lsflag <- 0
+	}
  
   if (lsflag==0) {
     if (pginfn <= gtol) conv <- list(type=0, message="Successful convergence")

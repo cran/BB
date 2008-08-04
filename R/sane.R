@@ -85,6 +85,7 @@
   ######################################
   #     MAIN LOOP:  Iteration begins
   ######################################
+  flag <- NULL # for case when tol is already ok initially and while loop is skipped
   while (normF/sqrt(n) > tol & iter <= maxit & !stagn) {
 
     # Calculate the gradient of the merit function ||F(X)||
@@ -154,6 +155,11 @@
        cat("\n iteration: ",iter, " ||F(xn)|| =  ", normF, "\n")
 
     }  # End of main loop
+
+  if (is.null(flag)) {
+        warning("convergence tolerance satisified at intial parameter values.")
+	flag <- 0
+	}
 
   if (flag==0) {
      if (normF/sqrt(n) <= tol) 
