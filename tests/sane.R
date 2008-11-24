@@ -21,9 +21,10 @@ expo1 <- function(x) {
 ans <- sane(par=runif(100), fn=expo1)
  
 z <- sum(ans$par)
-good   <-   100.0035727552039
+good   <-   100.00  #100.0035727552039
 #on Windows 100.0004769108742 
-#on Linux64 100.0035727552039
+#on Linux64 100.0035727552039 pre 2008.11-1
+#on Linux64  99.9934719173656     2008.11-1
 #on Linux32 100.0002196399214
 print(z, digits=16)
 if(any(abs(good - z) > 1e-2)) stop("BB test sane FAILED")

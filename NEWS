@@ -1,3 +1,26 @@
+           Changes in BB version 2008.11-1
+  
+  o "eps" decreased to 1.e-10 (from 1.e-08) in sane, to be consistent 
+      with "eps" for dfsane.
+
+  o Nelder-Mead start option for poor starting values in sane and dfsane.
+
+  o Steplength for first iteration was re-scaled in sane and dfsane.
+
+  o Retard scheme is introduced close to solution in sane and dfsane.
+
+  o A new stopping criterion "noimp" is introduced (flag=4 in sane, flag=3 in
+    dfsane).
+
+  o "optim" can be invoked using "L-BFGS-B" when "sane" is unsuccessful 
+    (type = 4 or 5) by setting BFGS of the control list in the sane arguments.
+
+  o "optim" can be invoked using "L-BFGS-B" when "dfsane" is unsuccessful 
+    (type = 2 or 5) by setting BFGS of the control list in the dfsane arguments.
+ 
+  o "pbest" and "normF.best are now returned from sane and dfsane.
+
+
            Changes in BB version 2008.8-1
   
   o fixed bug in sane and spg (previously fixed in dfsane) when tol is already 

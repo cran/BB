@@ -25,7 +25,7 @@
     \item{method}{An integer (1, 2, or 3) specifying which Barzilai-Borwein 
       steplength to use.  The default is 3.  See *Details*.} 
 
-    \item{project}{The projection function that takes a point in $R^n$ and 
+    \item{project}{The projection function that takes a point in \eqn{R^n}{R^n} and 
       projects it onto a region that defines the constraints of the problem.  
       This is a vector-function that takes a real vector as argument and 
       returns a real vector of the same length. See *Details*. 
