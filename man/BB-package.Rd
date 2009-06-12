@@ -5,7 +5,8 @@
 
 \title{Solving and Optimizing Large-Scale Nonlinear Systems}
 
-\description{Non-monotone Barzilai-Borwein spectral methods for the solution and optimization of large-scale nonlinear systems.  }
+\description{Non-monotone Barzilai-Borwein spectral methods for the solution 
+  and optimization of large-scale nonlinear systems.  }
 
 \details{
 \tabular{ll}{
@@ -13,8 +14,20 @@ Package: \tab BB\cr
 Depends: \tab R (>= 2.6.1)\cr
 License: \tab GPL Version 3.\cr
 }
-The main functions are:
+A tutorial style introduction to this package is available in a vignette, which
+can be viewed with vignette("BB").
+
+The main functions in this package are:
 \preformatted{
+
+BBsolve A wrapper function to provide a robust stategy for solving large 
+        systems of nonlinear equations. It calls dfsane with different 
+	algorithm control settings, until a successfully converged solution
+	is obtained.
+
+BBoptim A wrapper function to provide a robust stategy for real valued function 
+        optimization. It calls spg with different algorithm control settings, 
+	until a successfully converged solution is obtained.
 
 dfsane  function for solving large systems of nonlinear equations using a 
         derivative-free spectral approach 

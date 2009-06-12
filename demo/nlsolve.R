@@ -1,10 +1,17 @@
 if(!require("BB"))    stop("this requires package BB.")
 if(!require("setRNG"))stop("this requires setRNG.")
 
+#nsim <- 100
+# nsim reduced from 100 to 20 because of testing time constraints on CRAN
+nsim <- 20
+
 # This was used for tests conducted on March 25, 2008, using setRNG(test.rng).  
 #   iseed <- 1236  
 # Replaced with setRNG to ensure rng and normal generators are set too.
-test.rng <- list(kind="Wichmann-Hill", normal.kind="Box-Muller", seed=1236)
+# Changed from kind="Wichmann-Hill", normal.kind="Box-Muller", 
+#  (back) to "Mersenne-Twister", normal.kind="Inversion", Jan 15, 2009
+test.rng <- list(kind="Mersenne-Twister", normal.kind="Inversion", seed=1236)
+old.seed <- setRNG(test.rng)
 
 #
 # Some examples illustrating the use of SANE & DFSANE
@@ -27,7 +34,6 @@ c(ans1$resid, ans2$resid,ans3$resid, ans4$resid)
 c(ans1$feval, ans2$feval,ans3$feval,ans4$feval) 
 
 setRNG(test.rng)
-nsim <- 100
 dfsane1.expo1 <- dfsane2.expo1 <- dfsane3.expo1 <- sane.expo1 <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
@@ -74,7 +80,7 @@ c(ans1$resid, ans2$resid,ans3$resid, ans4$resid)
 c(ans1$feval, ans2$feval,ans3$feval,ans4$feval) 
 
 setRNG(test.rng)
-nsim <- 100
+
 dfsane1.expo3 <- dfsane2.expo3 <- dfsane3.expo3 <- sane.expo3 <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
@@ -158,7 +164,7 @@ c(ans1$feval, ans2$feval,ans3$feval,ans4$feval)
 
 
 setRNG(test.rng)
-nsim <- 100
+
 dfsane1.trigexp <- dfsane2.trigexp <- dfsane3.trigexp <- sane.trigexp <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
@@ -208,7 +214,7 @@ c(ans1$feval, ans2$feval,ans3$feval,ans4$feval)
 
 
 setRNG(test.rng)
-nsim <- 100
+
 dfsane1.valley <- dfsane2.valley <- dfsane3.valley <- sane.valley <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
@@ -253,7 +259,7 @@ c(ans1$resid, ans2$resid,ans3$resid, ans4$resid)
 c(ans1$feval, ans2$feval,ans3$feval,ans4$feval) 
 
 setRNG(test.rng)
-nsim <- 100
+
 dfsane1.broydt <- dfsane2.broydt <- dfsane3.broydt <- sane.broydt <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
@@ -299,7 +305,7 @@ c(ans1$feval, ans2$feval,ans3$feval,ans4$feval)
 
 
 setRNG(test.rng)
-nsim <- 100
+
 dfsane1.brent <- dfsane2.brent <- dfsane3.brent <- sane.brent <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
@@ -347,7 +353,6 @@ c(ans1$feval, ans2$feval,ans3$feval,ans4$feval)
 
 
 setRNG(test.rng)
-nsim <- 100
 dfsane1.troesch <- dfsane2.troesch <- dfsane3.troesch <- sane.troesch <- matrix(NA, nsim, 4)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")

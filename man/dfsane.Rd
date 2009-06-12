@@ -65,6 +65,7 @@ as the "default" method, since it generally performe better than the other schem
 Argument \code{control} is a list specifing any changes to default values of algorithm control parameters.  Note that the names of these must be 
 specified completely.  Partial matching does not work.
 
+\itemize{
 \item{M}{A positive integer, typically between 5-20, that controls the monotonicity of the algorithm.  \code{M=1} would enforce strict monotonicity 
 in the reduction of L2-norm of \code{fn}, whereas larger values allow for more non-monotonicity.  Global convergence under non-monotonicity is ensured by 
 enforcing the Grippo-Lampariello-Lucidi condition (Grippo et al. 1986) in a non-monotone line-search algorithm.  Values of \code{M} 
@@ -98,7 +99,7 @@ Default is \code{NM=FALSE}.}
 \item{BFGS}{A logical variable that dictates whether the low-memory 
 L-BFGS-B algorithm in \code{optim} will be called after certain types of 
 unsuccessful termination of \code{dfsane}. Default is \code{BFGS=FALSE}.}  
-}
+}}
 
 \references{ 
 
@@ -115,6 +116,7 @@ unsuccessful termination of \code{dfsane}. Default is \code{BFGS=FALSE}.}
 }
 
 \seealso{
+  \code{\link{BBsolve}},
   \code{\link{sane}},
   \code{\link{spg}},
   \code{\link[numDeriv]{grad}}

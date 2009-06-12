@@ -1,49 +1,71 @@
 \documentclass[english]{article}
 \begin{document}
 
-%\VignetteIndexEntry{BB Guide}
-\SweaveOpts{eval=TRUE,echo=TRUE,results=hide,fig=FALSE}
+%\VignetteIndexEntry{BB Tutorial}
+\SweaveOpts{eval=TRUE,echo=TRUE,results=verbatim,fig=FALSE,keep.source=TRUE}
 \begin{Scode}{echo=FALSE,results=hide}
  options(continue="  ")
 \end{Scode}
 
-\section{Functions for Barzilai-Borwein Optimization}
-The functions in this package are made available with
+\section{Overview of BB}
+``BB'' is a package intended for two purposes: (1) for solving a nonlinear 
+system of equations, and (2) for finding a local optimum (can be minimum or 
+maximum) of a scalar, objective function.  
+An attractive feature of the package is that it has minimum memory requirements.
+Therefore, it is particularly well suited to solving high-dimensional problems 
+with tens of thousands of parameters.  
+However, \emph{BB} can also be used to solve a single nonlinear equation or optimize 
+a function with just one variable.  The functions in this package are made 
+available with:
 
 \begin{Scode}
 library("BB") 
 \end{Scode}
 
-The package setRNG is not necessary, but if you want to exactly reproduce the
-examples in this guide then do this:
+You can look at the basic information on the package, including all the 
+available functions wtih
+
+\begin{Scode}{eval=FALSE,results=hide}
+help(package=BB)
+\end{Scode}
+
+The three basic functions are: \emph{spg}, \emph{dfsane}, and \emph{sane}.  
+You should \emph{spg} for optimization, and either \emph{dfsane} 
+or \emph{sane} for solving a nonlinear system of equations.  
+We prefer \emph{dfsane}, since it tends to perform slightly better 
+than \emph{sane}.  There are also 3 higher level functions: \emph{BBoptim},
+\emph{BBsolve}, and \emph{multiStart}.  \emph{BBoptim} is a wrapper 
+for \emph{spg} in the sense that 
+it calls \emph{spg} repeatedly with different algorithmic options.  It can 
+be used when \emph{spg} fails to find a local optimum, or it can be used 
+in place of \emph{spg}.  Similarly, \emph{BBsolve} is a wrapper 
+for \emph{dfsane} in the sense that it calls \emph{dfsane} repeatedly 
+with different algorithmic options.
+It can be used when \emph{dfsane} (\emph{sane}) fails to find a local 
+optimum, or it can be used in place of \emph{dfsane} (\emph{sane}).  
+The \emph{multiStart} function can accept 
+multiple starting values.  It can be used for either solving a nonlinear 
+system or for optimizing.  It is useful for exploring sensitivity to 
+starting values, and also for finding multiple solutions.
+
+The package \emph{setRNG} is not necessary, but if you want to exactly 
+reproduce the examples in this guide then do this:
 \begin{Scode}
 require("setRNG") 
 test.rng <- list(kind="Wichmann-Hill", normal.kind="Box-Muller", seed=1236)
 setRNG(test.rng)
 \end{Scode}
+after which the example need to be run in the order here (or at least the parts
+that generate random numbers).
 
+\section{How to solve a nonlinear system of equations with BB?}
 
-These examples are from La Cruz and Raydan, Optim Methods and 
+The first two examples are from La Cruz and Raydan, Optim Methods and 
 Software 2003, 18 (583-599).
 
 \begin{Scode}
-expo1 <- function(x) {
-n <- length(x)
-f <- rep(NA, n)
-f[1] <- exp(x[1] - 1) - 1
-f[2:n] <- (2:n) * (exp(x[2:n] - 1) - x[2:n])
-f
-}
-
-p0 <- runif(100)
-sane(par=p0, fn=expo1)
-dfsane(par=p0, fn=expo1)
-
-\end{Scode}
-
-\begin{Scode}
 expo3 <- function(p) {
-
+#  From La Cruz and Raydan, Optim Methods and Software 2003, 18 (583-599)
 n <- length(p)
 f <- rep(NA, n)
 onm1 <- 1:(n-1) 
@@ -52,16 +74,43 @@ f[n] <- n/10 * (1 - exp(-p[n]^2))
 f
 }
 
-n <-100
-p0 <- (1:n)/(4*n^2)
-sane(par=p0, fn=expo3)
-dfsane(par=p0, fn=expo3)
-
+p0 <- runif(10)
+ans <- dfsane(par=p0, fn=expo3)
+ans
 \end{Scode}
 
-This example is from Freudenstein and Roth function (Broyden, 
-Mathematics of Computation 1965, p. 577-593)
+Let us look at the output from \emph{dfsane}.  It is a list with 7 components.  
+The most important components to focus on are the two named ``\emph{par}'' 
+and ``\emph{convergence}''.  \emph{ans\$par} provides the solution from 
+\emph{dfsane}, but this is a root if and only if \emph{ans\$convergence} 
+is equal to \emph{0}, 
+i.e. \emph{ans\$message} should say ``Successful convergence''.  Otherwise, the 
+algorithm has failed. 
 
+Now, we show an example demonstrating the ability of BB to solve a large system of equations, N = 10000.
+
+\begin{Scode}
+
+trigexp <- function(x) {
+n <- length(x)
+F <- rep(NA, n)
+F[1] <- 3*x[1]^2 + 2*x[2] - 5 + sin(x[1] - x[2]) * sin(x[1] + x[2])
+tn1 <- 2:(n-1)
+F[tn1] <- -x[tn1-1] * exp(x[tn1-1] - x[tn1]) + x[tn1] * ( 4 + 3*x[tn1]^2) +
+        2 * x[tn1 + 1] + sin(x[tn1] - x[tn1 + 1]) * sin(x[tn1] + x[tn1 + 1]) - 8 
+F[n] <- -x[n-1] * exp(x[n-1] - x[n]) + 4*x[n] - 3
+F
+}
+
+n <- 10000
+p0 <- runif(n)
+ans <- dfsane(par=p0, fn=trigexp, control=list(trace=FALSE))
+ans$message
+ans$resid
+\end{Scode}
+
+The next example is from Freudenstein and Roth function (Broyden, 
+Mathematics of Computation 1965, p. 577-593).
 
 \begin{Scode}
 froth <- function(p){
@@ -72,116 +121,166 @@ f
 }
 \end{Scode}
 
-Here p0 gives the zero of the system
+Now, we introduce the function \emph{BBsolve}.  For the first starting value, 
+both \emph{dfsane} and \emph{BBsolve} find the zero of the system.
 
 \begin{Scode}
 p0 <- c(3,2) 
-sane(par=p0, fn=froth)
-dfsane(par=p0, fn=froth)
+BBsolve(par=p0, fn=froth)
+dfsane(par=p0, fn=froth, control=list(trace=FALSE))
 \end{Scode}
 
-Here p0 gives the local minimum that is not the zero of the system.
+For the next starting value, \emph{BBsolve} finds the zero of the system, but 
+\emph{dfsane} (with defaults) fails.
 
 \begin{Scode}
 
 p0 <- c(1,1)  
-sane(par=p0, fn=froth)
-dfsane(par=p0, fn=froth)
+BBsolve(par=p0, fn=froth)
+dfsane(par=p0, fn=froth, control=list(trace=FALSE))
 \end{Scode}
 
-Trying random starts
+Try random starting values.  Run the following set of code many times.  
+This shows that \emph{BBsolve} is quite robust in finding the zero, whereas 
+\emph{dfsane} (with defaults) is sensitive to starting values. 
+Admittedly, these are poor starting values, but still it would be nice to 
+have a strategy that has a high likelihood of finding a zero of the 
+nonlinear system.
 
 \begin{Scode}
-
-p0 <- rpois(2,10) 
-sane(par=p0, fn=froth)
-dfsane(par=p0, fn=froth)
+p0 <- rpois(2,10) # two values generated independently from a poisson distribution with mean = 10
+BBsolve(par=p0, fn=froth)
+dfsane(par=p0, fn=froth, control=list(trace=FALSE))
 \end{Scode}
 
-This example is from 
+Now, we introduce the function \emph{multiStart}.  This accepts a matrix of 
+starting values, where each row is a single starting value.  
+\emph{multiStart} calls \emph{BBsolve} for each starting value.  
+Here is a system 
+of 3 non-linear equations, where each equation is a high-degree polynomial.  
+This system has 12 real-valued roots and 126 complex-valued roots. Here we 
+will demonstrate how to identify all the 12 real roots using \emph{multiStart}.  
+Note that we specify the `\emph{action}' argument in 
+the following call to \emph{multiStart} only to highlight that \emph{multiStart}
+can be used for both solving a system of equations and 
+for optimization.  The default is `\emph{action = "solve"}', so it is really not 
+needed in this call.
 
 \begin{Scode}
-trig <- function(x){
-n <- length(x)
-suma <- sum(cos(x))
-o2n <- 1:n
-F <- 2 * (n + o2n * ( 1- cos(x)) - sin(x) - sum(cos(x))) * (2 * sin(x) - cos(x))
-F
-}
-
-p0 <- runif(100)
-sane(par=p0, fn=trig)
-dfsane(par=p0, fn=trig)
+# Example 
+# A high-degree polynomial system (R.B. Kearfoot, ACM 1987)
+# There are 12 real roots (and 126 complex roots to this system!)
+#
+hdp <- function(x) {
+  f <- rep(NA, length(x))
+  f[1] <- 5 * x[1]^9 - 6 * x[1]^5 * x[2]^2 + x[1] * x[2]^4 + 2 * x[1] * x[3]
+  f[2] <- -2 * x[1]^6 * x[2] + 2 * x[1]^2 * x[2]^3 + 2 * x[2] * x[3]
+  f[3] <- x[1]^2 + x[2]^2 - 0.265625
+  f
+  }
 \end{Scode}
 
-This example is from 
+We generate 200 randomly generated starting values, each a vector of length equal to 3.
+
+\begin{Scode}{results=hide}
+set.seed(123)
+p0 <- matrix(runif(600), 200, 3)  # 200 starting values, each of length 3
+ans <- multiStart(par=p0, fn=hdp, action="solve")
+sum(ans$conv)  # number of successful runs = 190
+pmat <- ans$par[ans$conv, ] # selecting only converged solutions
+\end{Scode}
+
+Now, we display the 12 unique real solutions.
+\begin{Scode}
+ans <- round(pmat, 4)
+ans[!duplicated(ans), ]
+\end{Scode}
+
+We can also visualize these 12 solutions beautifully using a `biplot' based on the 
+first 2 principal components of the converged parameter matrix.
+\begin{Scode}{fig=TRUE}
+pc <- princomp(pmat)
+biplot(pc)  # you can see all 12 solutions beautifully like on a clock!
+\end{Scode}
+
+\section{How to optimize a nonlinear objective function with BB?}
+The basic function for optimization is \emph{spg}.  It can solve smooth, 
+nonlinear optimization problems with box-constraints, and also other types of 
+constraints using projection.  
+We would like to direct the user to the help page for many examples of 
+how to use \emph{spg}.  Here we discuss an example involving estimation of 
+parameters maximizing a log-likelihood function for 
+a binary Poisson mixture distribution.  
 
 \begin{Scode}
-trigexp <- function(x) {
-n <- length(x)
-F <- rep(NA, n)
-F[1] <- 3*x[1]^2 + 2*x[2] - 5 + sin(x[1] - x[2]) * sin(x[1] + x[2])
-tn1 <- 2:(n-1)
-F[tn1] <- -x[tn1-1] * exp(x[tn1-1] - x[tn1]) + x[tn1] * ( 4 + 3*x[tn1]^2) +
-		2 * x[tn1 + 1] + sin(x[tn1] - x[tn1 + 1]) * sin(x[tn1] + x[tn1 + 1]) - 8 
-F[n] <- -x[n-1] * exp(x[n-1] - x[n]) + 4*x[n] - 3
-F
+poissmix.loglik <- function(p,y) {
+# Log-likelihood for a binary Poisson mixture distribution
+i <- 0:(length(y)-1)
+loglik <- y * log(p[1] * exp(-p[2]) * p[2]^i / exp(lgamma(i+1)) + 
+        (1 - p[1]) * exp(-p[3]) * p[3]^i / exp(lgamma(i+1)))
+return (sum(loglik) )
 }
-
-sane(par=p0, fn=trigexp)
-dfsane(par=p0, fn=trigexp)
+# Data from Hasselblad (JASA 1969)
+poissmix.dat <- data.frame(death=0:9, freq=c(162,267,271,185,111,61,27,8,3,1))
 \end{Scode}
 
-This example is from 
+There are 3 model parameters, which have restricted domains.  So, we 
+define these constraints as follows:
 
 \begin{Scode}
-chen <- function(x) {
-v <- log(x) + exp(x)
-f <- (v - sqrt(v^2 + 5e-03))/2
-f
-}
-
-sane(par=p0, fn=chen)
-dfsane(par=p0, fn=chen)
-
-
-valley <- function(x) {
-c1 <- 1.003344481605351
-c2 <- -3.344481605351171e-04
-n <- length(x)
-f <- rep(NA, n)
-j <- 3 * (1:(n/3))
-jm2 <- j - 2
-jm1 <- j - 1
-f[jm2] <- (c2 * x[jm2]^3 + c1 * x[jm2]) * exp(-(x[jm2]^2)/100) - 1
-f[jm1] <- 10 * (sin(x[jm2]) - x[jm1])
-f[j] <- 10 * (cos(x[jm2]) - x[j])
-f
-}
+lo <- c(0,0,0)  # lower limits for parameters
+hi <- c(1, Inf, Inf) # upper limits for parameters
 \end{Scode}
 
-Here the number of variables must be a multiple of 3
+Now, we maximize the log-likelihood function using both \emph{spg} and 
+\emph{BBoptim}, with a randomly generated starting value for the 3 parameters:
 
 \begin{Scode}
- 
-p102 <- runif(102) 
-sane(par=p102, fn=valley)
-dfsane(par=p102, fn=valley)
+p0 <- runif(3,c(0.2,1,1),c(0.8,5,8))  # a randomly generated vector of length 3
+y <- c(162,267,271,185,111,61,27,8,3,1)
 
-broydt <- function(x) {
-n <- length(x)
-f <- rep(NA, n)
-f[1] <- ((3 - 0.5*x[1]) * x[1]) - 2*x[2] + 1
-tnm1 <- 2:(n-1)
-f[tnm1] <- ((3 - 0.5*x[tnm1]) * x[tnm1]) - x[tnm1-1] - 2*x[tnm1+1] + 1
-f[n] <- ((3 - 0.5*x[n]) * x[n]) - x[n-1] + 1
-f
-}
-
-sane(par=p0, fn=broydt)
-dfsane(par=p0, fn=broydt)
-
+ans1 <- spg(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi,
+          control=list(maximize=TRUE, trace=FALSE))
+ans1
+ans2 <- BBoptim(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi, 
+          control=list(maximize=TRUE))
+ans2
 \end{Scode}
 
+Note that we had to specify the `\emph{maximize}' option inside the \emph{control} list 
+to let the algorithm know that we are maximizing the objective function, 
+since the default is to minimize 
+the objective function.  Also note how we pass the data vector `\emph{y}' to 
+the log-likelihood function, \emph{possmix.loglik}.  
+
+Now, we illustrate how to compute the Hessian of the log-likelihood at 
+the MLE, and then how to use the Hessian to compute the standard errors for 
+the parameters.  To compute the Hessian we require the package "\emph{numDeriv}."  
+
+\begin{Scode}
+require(numDeriv)
+hess <- hessian(x=ans2$par, func=poissmix.loglik, y=y)  # Note that we have to pass data vector `y'
+hess
+se <- sqrt(diag(solve(-hess)))
+se
+\end{Scode}
+
+Now, we explore the use of multiple starting values to see if we can identify 
+multiple local maxima.  We have to make sure that we 
+specify `\emph{action = "optimize"}', because the default option in 
+\emph{multiStart} is \emph{"solve"}.
+
+\begin{Scode}{results=hide}
+p0 <- matrix(runif(300, c(0.2,1,1), c(0.8,8,8)), 100, 3, byrow=TRUE)  # 3 randomly generated starting values
+ans <- multiStart(par=p0, fn=poissmix.loglik, action="optimize",
+      y=y, lower=lo, upper=hi, control=list(maximize=TRUE))
+pmat <- ans$par[ans$conv, ] # selecting only converged solutions
+ans <- round(pmat, 4)
+ans[!duplicated(ans), ]
+\end{Scode}
+
+This seemingly identifies many solutions.  However, except for two solutions, the rest are degenerate (i.e. the mixing 
+proportion, which is the first parameter, is either 0 or 1).  The two non-degenerate solutions are actually the same, 
+except that the labels for the first and second components are switched.  
 
 \end{document}

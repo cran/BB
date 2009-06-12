@@ -46,7 +46,6 @@ initial L2-norm.}
  }
 
 \item{message}{A text message explaining which termination criterion was used.}
-
 }
 
 \details{
@@ -76,7 +75,8 @@ schemes in our numerical experiments.
 Argument \code{control} is a list specifing any changes to default values of 
 algorithm control parameters.  Note that the names of these must be 
 specified completely.  Partial matching will not work.
-
+Argument \code{control} has the following components:
+\itemize{
 \item{M}{A positive integer, typically between 5-20, that controls the 
 monotonicity of the algorithm.  \code{M=1} would enforce strict monotonicity 
 in the reduction of L2-norm of \code{fn}, whereas larger values allow for 
@@ -113,7 +113,7 @@ Default is \code{NM=FALSE}.}
 \item{BFGS}{A logical variable that dictates whether the low-memory L-BFGS-B 
 algorithm in \code{optim} will be called after certain types of unsuccessful 
 termination of \code{sane}. Default is \code{BFGS=FALSE}.}
-
+}
 }
 
 \references{ 
@@ -136,6 +136,7 @@ termination of \code{sane}. Default is \code{BFGS=FALSE}.}
 }
 
 \seealso{
+  \code{\link{BBsolve}},
   \code{\link{dfsane}},
   \code{\link{spg}},
   \code{\link[numDeriv]{grad}}

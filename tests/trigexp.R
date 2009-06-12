@@ -1,6 +1,11 @@
 if(!require("BB"))stop("this test requires package BB.")
-iseed <- 1236  # this seed was used for tests conducted on March 25, 2008.  
-set.seed(iseed)
+if(!require("setRNG"))stop("this test requires setRNG.")
+
+# Use a preset seed so test values are reproducable. 
+test.rng <- list(kind="Mersenne-Twister", normal.kind="Inversion", seed=1236)
+old.seed <- setRNG(test.rng)
+#iseed <- 1236  # this seed was used for tests conducted on March 25, 2008.  
+#set.seed(iseed)
 
 trigexp <- function(x) {
 n <- length(x)

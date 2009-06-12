@@ -89,7 +89,7 @@ convergence to a better optimum in our experiments.
 We recommend that the user try the other steplength schemes if the default 
 method does not perform well in their problem.  
 
-Argument \code{project} defaults to "NULL", which results in a default box
+Argument \code{project} defaults to \code{NULL}, which results in a default box
 projection using constraints defined by vectors \code{lower} and \code{upper}. 
 These default to \code{-Inf} and \code{+Inf} respectively, but the user 
 can specify \code{lower} and \code{upper} arguments to enforce box constraints.  
@@ -106,7 +106,7 @@ Argument \code{control} is a list specifing any changes to default values of
 algorithm control parameters.  Note that the names of these must be 
 specified completely.  Partial matching will not work. 
 The list items are as follows:
-
+\itemize{
 \item{M}{A positive integer, typically between 5-20, that controls the monotonicity of the algorithm.  \code{M=1} would enforce strict monotonicity 
 in the reduction of L2-norm of \code{fn}, whereas larger values allow for more non-monotonicity.  Global convergence under non-monotonicity is ensured by 
 enforcing the Grippo-Lampariello-Lucidi condition (Grippo et al. 1986) in a non-monotone line-search algorithm.  Values of \code{M} 
@@ -132,7 +132,15 @@ minimization.  For maximization (e.g. log-likelihood maximization in statistical
 
 \item{eps}{A small positive increment used in the finite-difference 
   approximation of gradient.  Default is 1.e-07.}
-}
+
+\item{checkGrad.tol}{A small positive value use to compare the maximum relative
+  difference between a user supplied gradient gr and the numerical approximation
+  calculated by grad from package \pkg{numDeriv}. The default is 1.e-06.
+  If this value is exceeded then an error message is issued, as it is a 
+  reasonable indication of a problem with the user supplied gr. The user can
+  either fix the gr function, remove it so the finite-difference 
+  approximation is used, or increase the tolerance so the check passes.}
+}}
 
 \references{   
     Birgin EG, Martinez JM, and Raydan M (2000): Nonmonotone spectral projected gradient methods on convex sets, \emph{SIAM J Optimization}, 10, 1196-1211.
@@ -149,6 +157,7 @@ minimization.  For maximization (e.g. log-likelihood maximization in statistical
 
 }
 \seealso{
+  \code{\link{BBoptim}},
   \code{\link{optim}},
   \code{\link{nlm}},
   \code{\link{sane}},
@@ -175,16 +184,16 @@ ans.spg1 <- spg(par=p0, fn=sc2.f, gr=sc2.g)
 ############
 # Another example illustrating use of additional parameters to objective function 
 valley.f <- function(x, cons) {
-n <- length(x)
-f <- rep(NA, n)
-j <- 3 * (1:(n/3))
-jm2 <- j - 2
-jm1 <- j - 1
-f[jm2] <- (cons[2] * x[jm2]^3 + cons[1] * x[jm2]) * exp(-(x[jm2]^2)/100) - 1
-f[jm1] <- 10 * (sin(x[jm2]) - x[jm1])
-f[j] <- 10 * (cos(x[jm2]) - x[j])
-sum(f*f)
-}
+  n <- length(x)
+  f <- rep(NA, n)
+  j <- 3 * (1:(n/3))
+  jm2 <- j - 2
+  jm1 <- j - 1
+  f[jm2] <- (cons[2] * x[jm2]^3 + cons[1] * x[jm2]) * exp(-(x[jm2]^2)/100) - 1
+  f[jm1] <- 10 * (sin(x[jm2]) - x[jm1])
+  f[j] <- 10 * (cos(x[jm2]) - x[j])
+  sum(f*f)
+  }
 
 k <- c(1.003344481605351, -3.344481605351171e-03)
 p0 <- rnorm(300)  # number of parameters should be a multiple of 3 for this example
@@ -196,12 +205,12 @@ ans.lbfgs <- optim(par=p0, fn=valley.f, cons=k, method="L-BFGS-B")
 # Here is a statistical example illustrating log-likelihood maximization.
 
 poissmix.loglik <- function(p,y) {
-# Log-likelihood for a binary Poisson mixture
-i <- 0:(length(y)-1)
-loglik <- y*log(p[1]*exp(-p[2])*p[2]^i/exp(lgamma(i+1)) + 
+  # Log-likelihood for a binary Poisson mixture
+  i <- 0:(length(y)-1)
+  loglik <- y*log(p[1]*exp(-p[2])*p[2]^i/exp(lgamma(i+1)) + 
         (1 - p[1])*exp(-p[3])*p[3]^i/exp(lgamma(i+1)))
-return (sum(loglik) )
-}
+  return (sum(loglik) )
+  }
 
 # Data from Hasselblad (JASA 1969)
 poissmix.dat <- data.frame(death=0:9, freq=c(162,267,271,185,111,61,27,8,3,1))
@@ -216,6 +225,31 @@ p0 <- runif(3,c(0.2,1,1),c(0.8,5,8))  # randomly generated starting values
 ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi, 
      control=list(maximize=TRUE))
 
+# how to compute hessian at the MLE
+  require(numDeriv)
+  hess <- hessian(x=ans.spg$par, poissmix.loglik, y=y)
+  se <- sqrt(-diag(solve(hess)))  # approximate standard errors
+
+
+####################################################################
+# An example showing how to use "projection" to impose constraints in spg()
+
+fr <- function(x) { ## Rosenbrock Banana function
+  x1 <- x[1] 
+  x2 <- x[2] 
+  100 * (x2 - x1 * x1)^2 + (1 - x1)^2 
+  } 
+
+# We impose a constraint that sum(x) = 1
+#  Using the `project' argument
+
+proj <- function(x, lower, upper) {
+  # note: you need to specify "lower" and "upper" as arguments, 
+  #even if they aren't used
+  x / sum(x)  
+  }
+
+spg(par=runif(2), fn=fr, project=proj) 
 }
 
 \keyword{multivariate}

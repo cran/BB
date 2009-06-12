@@ -1,3 +1,28 @@
+           Changes in BB version 2009.06-1 
+  
+  o Added function multiStart to start BBoptim or BBsolve from multiple
+     initial points.  
+
+  o Added BBoptim wrapper function. The wrapper functions BBoptim and BBsolve
+     are the preferred user interface.  
+
+  o Added checks in sane() and dfsane() for an objective function returning 
+     a non-vector result.  
+  
+  o Added a check to spg() that a user supplied gradient gives a result close
+      to grad from numDeriv (which means numDeriv is now required).  
+
+  o Added check in spg() for an objective function returning a non-scalar result,
+     with an automatic fix if the result is length 1.  
+
+  o In nlsolve demo nsim was reduced from 100 to 20 and in nlmin demo the optim
+      examples were commented out because of testing time constraints on CRAN.
+ 
+  o Added BBsolve wrapper function.  
+
+  o Minor documentation fixes found by the new parser in R-devel.
+
+
            Changes in BB version 2008.11-1
   
   o "eps" decreased to 1.e-10 (from 1.e-08) in sane, to be consistent 

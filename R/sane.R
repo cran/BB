@@ -28,7 +28,7 @@ sane <- function (par, fn, method = 2, control = list(), ...)  {
             xnew <- x + lambda * sgn * F
             Fnew <- try(do.call("fn", append(list(xnew), fargs)))
             fcnt = fcnt + 1
-            if (class(Fnew) == "try-error" | any(is.nan(Fnew))) 
+            if (class(Fnew) == "try-error" || any(is.nan(Fnew))) 
                 return(list(xnew = NA, Fnew = NA, fcnt = fcnt, 
                   bl = bl, lsflag = 1, fune = NA))
             else fune <- sum(Fnew * Fnew)
@@ -66,8 +66,12 @@ sane <- function (par, fn, method = 2, control = list(), ...)  {
 ##  We do initial Nelder-Mead start-up
 	if (NM) {
 		res <- try(optim(par=par, fn=U, method="Nelder-Mead", control=list(maxit=100), ...), silent=TRUE)
-		if (class(res) == "try-error" | any(is.nan(res$par))) 
-			stop("\n Failure in Nelder-Mead Start \n  Try another starting value \n")
+		if (class(res) == "try-error") { 
+			cat(res)
+			stop("\nFailure in Nelder-Mead Start.  Try another starting value \n")
+			}
+		else if (any(is.nan(res$par))) 
+			stop("Failure in Nelder-Mead Start (NaN value).  Try another starting value \n")
 		par <- res$par
 		fcnt <- as.numeric(res$counts[1])
 	}
@@ -76,8 +80,12 @@ sane <- function (par, fn, method = 2, control = list(), ...)  {
 	fcnt <- fcnt + 1
     if (class(F) == "try-error") 
         stop(" Failure in initial functional evaluation.")
+    else if (!is.numeric(F) || !is.vector(F)) 
+        stop("Function must return a vector numeric value.")
     else if (any(is.nan(F), is.infinite(F), is.na(F))) 
         stop(" Failure in initial functional evaluation.")
+    else if (length(F) == 1) 
+        warning("Function returns a scalar. Function BBoptim or spg is better.")
 
     F0 <- normF <- sqrt(sum(F * F))
     if (trace) 
@@ -91,7 +99,7 @@ sane <- function (par, fn, method = 2, control = list(), ...)  {
     while (normF/sqrt(n) > tol & iter <= maxit) {
         Fa <- try(fn(par + h * F, ...))
         fcnt <- fcnt + 1
-        if (class(Fa) == "try-error" | any(is.nan(Fa))) {
+        if (class(Fa) == "try-error" || any(is.nan(Fa))) {
             flag <- 1
             break
         }
@@ -192,7 +200,7 @@ sane <- function (par, fn, method = 2, control = list(), ...)  {
 	if (BFGS & (conv$type==4 | conv$type==5) ) {
 	cat("Calling `L-BFGS-B' in `optim' \n")
 	res <- try(optim(par=pbest, fn=U, method="L-BFGS-B", control=list(pgtol=1.e-08, factr=1000, maxit=200), ...), silent=TRUE)
-		if (class(res) == "try-error" | any(is.nan(res$par))) break
+		if (class(res) == "try-error" || any(is.nan(res$par))) break
       		normF.new <- sqrt(res$value)
  		if (normF.new < normF.best) {
 			normF.best <- normF.new
