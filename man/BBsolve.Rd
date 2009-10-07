@@ -88,5 +88,8 @@ BBsolve(par=p0, fn=broydt, control=list(M=50, NM=FALSE))  # this implements the 
 BBsolve(par=p0, fn=broydt, method=1, control=list(M=c(50, 10)))  # this implements BB steplength 1 with M = 50 and 10, and both with and without Nelder-Mead initialization
 BBsolve(par=p0, fn=broydt, method=2, control=list(M=10, NM=FALSE)) # identical to dfsane() with defaults
 }
+\references{ 
+   R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, \url{http://www.jstatsoft.org/v32/i04/}
+}
 
 \keyword{multivariate}

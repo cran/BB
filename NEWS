@@ -1,3 +1,18 @@
+           Changes in BB version 2009.9-1 
+	   
+  o Added BBvignetteJSS of JSS paper, and small related changes, including
+      license to GPL-2 or greater.
+  
+  o Relaxed multiStartHDP.R test for CRAN Mac testing platform.
+
+  o Added Fleishman example to the vignette tutorial.
+
+  
+           Changes in BB version 2009.06-2 
+  
+  o Added try() wrapper in BBoptim and BBsolve calls from multiStart().  
+
+
            Changes in BB version 2009.06-1 
   
   o Added function multiStart to start BBoptim or BBsolve from multiple

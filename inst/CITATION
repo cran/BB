@@ -1,17 +1,20 @@
-citHeader("To cite package 'BB' in publications use:")
+citHeader("To cite BB in publications use:")
 
-citEntry(entry="article",
-  author  = personList(as.person("R. Varadhan"),
-                       as.person("P. D. Gilbert")),
-  year    = 2008,
-  title   = "BB: An R package of Barzilai-Borwein spectral methods for solving 
-      and optimizing large-scale nonlinear systems",
-  journal = "Unpublished",
+citEntry(entry = "Article",
+  title        = "{BB}: An {R} Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function",
+  author       = personList(as.person("Ravi Varadhan"),
+                   as.person("Paul Gilbert")),
+  journal      = "Journal of Statistical Software",
+  year         = "2009",
+  volume       = "32",
+  number       = "4",
+  pages        = "1--26",
+  url          = "http://www.jstatsoft.org/v32/i04/",
 
-  textVersion = 
-     paste("R. Varadhan and P. D. Gilbert (2008) ", 
-           "BB: An R package of Barzilai-Borwein spectral methods for solving ",
-           "and optimizing large-scale nonlinear systems, Unpublished",
-         "<http://www.jhsph.edu/agingandhealth/People/Faculty/Varadhan.html>",
-               sep="")
-  )
+  textVersion  =
+  paste("Ravi Varadhan, Paul Gilbert (2009).",
+        "BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function.",
+        "Journal of Statistical Software, 32(4), 1-26.",
+        "URL http://www.jstatsoft.org/v32/i04/.")
+)
+

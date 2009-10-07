@@ -65,7 +65,7 @@ as the "default" method, since it generally performe better than the other schem
 Argument \code{control} is a list specifing any changes to default values of algorithm control parameters.  Note that the names of these must be 
 specified completely.  Partial matching does not work.
 
-\itemize{
+\describe{
 \item{M}{A positive integer, typically between 5-20, that controls the monotonicity of the algorithm.  \code{M=1} would enforce strict monotonicity 
 in the reduction of L2-norm of \code{fn}, whereas larger values allow for more non-monotonicity.  Global convergence under non-monotonicity is ensured by 
 enforcing the Grippo-Lampariello-Lucidi condition (Grippo et al. 1986) in a non-monotone line-search algorithm.  Values of \code{M} 
@@ -111,7 +111,7 @@ unsuccessful termination of \code{dfsane}. Default is \code{BFGS=FALSE}.}
 
    R Varadhan and C Roland (2008),  Simple and globally-convergent methods for accelerating the convergence of any EM algorithm,  \emph{Scandinavian J Statistics}. 
 
-   R Varadhan and P Gilbert (2008),  BB: A package of Barzilai-Borwein spectral methods for solving and optimizing large-scale nonlinear systems,  \emph{Unpublished}. 
+   R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, \url{http://www.jstatsoft.org/v32/i04/}
 
 }
 

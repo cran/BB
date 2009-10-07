@@ -101,6 +101,9 @@ BBoptim(par=p0, fn=rosbkext)
 BBoptim(par=p0, fn=rosbkext, lower=0) # compare the improvement in convergence when bounds are specified
 BBoptim(par=p0, fn=rosbkext, method=3, control=list(M=10, trace=TRUE))  # identical to spg() with defaults
 }
+\references{ 
+   R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, \url{http://www.jstatsoft.org/v32/i04/}
+}
 
 \keyword{multivariate}
 

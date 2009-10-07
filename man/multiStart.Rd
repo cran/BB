@@ -84,5 +84,8 @@ attr(ans, "details")[[1]]  #
 pmat <- ans$par[ans$conv, 1:5] # selecting only converged solutions
 round(pmat, 3)
 }
+\references{ 
+   R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, \url{http://www.jstatsoft.org/v32/i04/}
+}
 
 \keyword{multivariate}
