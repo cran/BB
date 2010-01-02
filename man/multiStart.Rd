@@ -5,7 +5,7 @@
 points to obtain multiple solutions and to test sensitivity to starting values.}
 \usage{
   multiStart(par, fn, gr=NULL, action = c("solve", "optimize"), 
-	method=c(2,3,1), control=list(), details=FALSE, ...) 
+	method=c(2,3,1), control=list(), quiet=FALSE, details=FALSE, ...) 
   }
 \arguments{
     \item{par}{A real matrix, each row of which is an argument to \code{fn},
@@ -17,6 +17,12 @@ points to obtain multiple solutions and to test sensitivity to starting values.}
       system or to optimize.  Default is ``solve''.} 
     \item{method}{see \code{BBsolve} or \code{BBoptim}.} 
     \item{control}{See \code{BBsolve} and \code{BBoptim}.}
+    \item{quiet}{A logical variable (TRUE/FALSE). If \code{TRUE} warnings 
+    and some additional information printing are suppressed.  
+    Default is \code{quiet = FALSE}
+    Note that the \code{control} variable \code{trace} and \code{quiet} 
+    affect different printing, so if \code{trace} is not set to \code{FALSE} 
+    there will be considerable printed output.}
     \item{details}{Logical indicating if the result should include the full
       result from \code{BBsolve} or \code{BBoptim} for each starting value.}
     \item{...}{arguments passed fn (via the optimization algorithm).}

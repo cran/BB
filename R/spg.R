@@ -1,9 +1,9 @@
 spg <- function(par, fn, gr=NULL, method=3, project=NULL, 
-           lower=-Inf, upper=Inf,  control=list(),  ... ) {
+           lower=-Inf, upper=Inf,  control=list(), quiet=FALSE,  ... ) {
 
   # control defaults
   ctrl <- list(M=10, maxit=1500, gtol=1.e-05, maxfeval=10000, maximize=FALSE, 
-        trace=TRUE, triter=10, eps=1e-7, checkGrad.tol=1.e-06) 
+        trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad.tol=1.e-06) 
   namc <- names(control)
   if (! all(namc %in% names(ctrl)) )
      stop("unknown names in control: ", namc[!(namc %in% names(ctrl))])     
@@ -248,13 +248,14 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
       }   # while condition loop concludes
 
   if (is.null(lsflag)) {
-        warning("convergence tolerance satisified at intial parameter values.")
+        if (!quiet) warning("convergence tolerance satisified at intial parameter values.")
 	lsflag <- 0
 	}
  
   if (lsflag==0) {
     if (pginfn <= gtol) conv <- list(type=0, message="Successful convergence")
     if (iter >= maxit)  conv <- list(type=1, message="Maximum number of iterations exceeded")
+    f.rep <- (-1)^maximize * fbest  # This bug was fixed by Ravi Varadhan.  March 29, 2010.
     } else {
       par <- pbest
       f.rep <- f <- (-1)^maximize * fbest

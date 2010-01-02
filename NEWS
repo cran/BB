@@ -1,88 +1,103 @@
-           Changes in BB version 2009.9-1 
+Changes in BB version 2010.4-1 
 	   
-  o Added BBvignetteJSS of JSS paper, and small related changes, including
-      license to GPL-2 or greater.
+   o	Added argument quiet=FALSE to several functions, to be able to suppress
+	warnings and some output.
+	   
+   o	Added a test of spg for the case when optimum values are supplied as 
+	initial values (thanks to John Nash).
+	   
+   o	Fixed a bug in spg when optimum values are supplied as initial values.
+
+   o	Standardized NEWS format for new function news().
+
+Changes in BB version 2009.9-1 
+	   
+   o	Added BBvignetteJSS of JSS paper, and small related changes, including
+	license to GPL-2 or greater.
   
-  o Relaxed multiStartHDP.R test for CRAN Mac testing platform.
+   o	Relaxed multiStartHDP.R test for CRAN Mac testing platform.
 
-  o Added Fleishman example to the vignette tutorial.
+   o	Added Fleishman example to the vignette tutorial.
 
   
-           Changes in BB version 2009.06-2 
+Changes in BB version 2009.06-2 
   
-  o Added try() wrapper in BBoptim and BBsolve calls from multiStart().  
+   o	Added try() wrapper in BBoptim and BBsolve calls from multiStart().  
 
 
-           Changes in BB version 2009.06-1 
+Changes in BB version 2009.06-1 
   
-  o Added function multiStart to start BBoptim or BBsolve from multiple
-     initial points.  
+   o	Added function multiStart to start BBoptim or BBsolve from multiple
+	initial points.  
 
-  o Added BBoptim wrapper function. The wrapper functions BBoptim and BBsolve
-     are the preferred user interface.  
+   o	Added BBoptim wrapper function. The wrapper functions BBoptim and 
+ 	BBsolve are the preferred user interface.  
 
-  o Added checks in sane() and dfsane() for an objective function returning 
-     a non-vector result.  
+   o	Added checks in sane() and dfsane() for an objective function returning 
+	a non-vector result.  
   
-  o Added a check to spg() that a user supplied gradient gives a result close
-      to grad from numDeriv (which means numDeriv is now required).  
+   o	Added a check to spg() that a user supplied gradient gives a result close
+ 	to grad from numDeriv (which means numDeriv is now required).  
 
-  o Added check in spg() for an objective function returning a non-scalar result,
-     with an automatic fix if the result is length 1.  
+   o	Added check in spg() for an objective function returning a non-scalar 
+ 	result, with an automatic fix if the result is length 1.  
 
-  o In nlsolve demo nsim was reduced from 100 to 20 and in nlmin demo the optim
-      examples were commented out because of testing time constraints on CRAN.
+   o	In nlsolve demo nsim was reduced from 100 to 20 and in nlmin demo the 
+ 	optim examples were commented out because of testing time 
+	constraints on CRAN.
  
-  o Added BBsolve wrapper function.  
+   o	Added BBsolve wrapper function.  
 
-  o Minor documentation fixes found by the new parser in R-devel.
+   o	Minor documentation fixes found by the new parser in R-devel.
 
 
-           Changes in BB version 2008.11-1
+Changes in BB version 2008.11-1
   
-  o "eps" decreased to 1.e-10 (from 1.e-08) in sane, to be consistent 
-      with "eps" for dfsane.
+   o	"eps" decreased to 1.e-10 (from 1.e-08) in sane, to be consistent 
+	with "eps" for dfsane.
 
-  o Nelder-Mead start option for poor starting values in sane and dfsane.
+   o	Nelder-Mead start option for poor starting values in sane and dfsane.
 
-  o Steplength for first iteration was re-scaled in sane and dfsane.
+   o	Steplength for first iteration was re-scaled in sane and dfsane.
 
-  o Retard scheme is introduced close to solution in sane and dfsane.
+   o	Retard scheme is introduced close to solution in sane and dfsane.
 
-  o A new stopping criterion "noimp" is introduced (flag=4 in sane, flag=3 in
-    dfsane).
+   o	A new stopping criterion "noimp" is introduced (flag=4 in sane, 
+	flag=3 in dfsane).
 
-  o "optim" can be invoked using "L-BFGS-B" when "sane" is unsuccessful 
-    (type = 4 or 5) by setting BFGS of the control list in the sane arguments.
+   o	"optim" can be invoked using "L-BFGS-B" when "sane" is unsuccessful 
+	(type = 4 or 5) by setting BFGS of the control list in the 
+	sane arguments.
 
-  o "optim" can be invoked using "L-BFGS-B" when "dfsane" is unsuccessful 
-    (type = 2 or 5) by setting BFGS of the control list in the dfsane arguments.
+   o	"optim" can be invoked using "L-BFGS-B" when "dfsane" is unsuccessful 
+	(type = 2 or 5) by setting BFGS of the control list in the 
+	dfsane arguments.
  
-  o "pbest" and "normF.best are now returned from sane and dfsane.
+   o	"pbest" and "normF.best are now returned from sane and dfsane.
 
 
-           Changes in BB version 2008.8-1
+Changes in BB version 2008.8-1
   
-  o fixed bug in sane and spg (previously fixed in dfsane) when tol is already 
-     ok initially and while loop is skipped, so flag in result is not set. Also
-     added a warning message when this happens.
+   o	fixed bug in sane and spg (previously fixed in dfsane) when tol is 
+	already ok initially and while loop is skipped, so flag in result is 
+	not set. Also added a warning message when this happens.
 
 
-           Changes in BB version 2008.7-1
+Changes in BB version 2008.7-1
   
-  o fixed bug in dfsane when tol is already ok initially and while loop is
-    skipped, so flag in result is not set.
+   o	fixed bug in dfsane when tol is already ok initially and while loop is
+	skipped, so flag in result is not set.
 
-           Changes in BB version 2008.5-1
+Changes in BB version 2008.5-1
   
-  o fixed a references that was inaccurate and added web links to others.
+   o	fixed a references that was inaccurate and added web links to others.
 
-  o fixed bug when maximizing a function with analytic gradient supplied, and add
-    a test of this.
+   o	fixed bug when maximizing a function with analytic gradient supplied, 
+	and add a test of this.
 
-  o changed the title (as appears on CRAN) to be more descriptive.
+   o	changed the title (as appears on CRAN) to be more descriptive.
 
 
-              BB version 2008.4-1
+Changes in BB version 2008.4-1
 
-  o first release 
+   o	first release 

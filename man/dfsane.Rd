@@ -3,7 +3,7 @@
 \title{ Solving Large-Scale Nonlinear System of Equations}
 \description{Derivative-Free Spectral Approach for solving nonlinear systems of equations}
 \usage{
-  dfsane(par, fn, method=2, control=list(), ...) 
+  dfsane(par, fn, method=2, control=list(), quiet=FALSE, ...) 
  }
 \arguments{
     \item{fn}{a function that takes a real vector as argument and  returns a real vector of same length (see details).}
@@ -14,6 +14,13 @@
     \item{method}{An integer (1, 2, or 3) specifying which Barzilai-Borwein steplength to use.  The default is 2.  See *Details*.} 
  
     \item{control}{A list of control parameters. See *Details*.}
+
+    \item{quiet}{A logical variable (TRUE/FALSE). If \code{TRUE} warnings 
+    and some additional information printing are suppressed.  
+    Default is \code{quiet = FALSE}
+    Note that the \code{control} variable \code{trace} and \code{quiet} 
+    affect different printing, so if \code{trace} is not set to \code{FALSE} 
+    there will be considerable printed output.}
  
     \item{...}{Additional arguments passed to \code{fn}.} 
 }

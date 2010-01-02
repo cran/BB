@@ -1,7 +1,7 @@
-dfsane <- function (par, fn, method = 2, control = list(), ...) 
+dfsane <- function (par, fn, method = 2, control = list(), quiet=FALSE, ...) 
 {
     ctrl <- list(maxit = 1500, M = 10, tol = 1e-07, trace = TRUE, 
-        triter = 10, noimp = 100, NM=FALSE, BFGS=FALSE)
+        triter = 10, quiet=FALSE, noimp = 100, NM=FALSE, BFGS=FALSE)
     namc <- names(control)
     if (!all(namc %in% names(ctrl))) 
         stop("unknown names in control: ", namc[!(namc %in% names(ctrl))])
@@ -110,7 +110,7 @@ dfsane <- function (par, fn, method = 2, control = list(), ...)
         stop("Function must return a vector numeric value.")
     else if (any(is.nan(F), is.infinite(F), is.na(F))) 
 		stop ("Failure in initial functional evaluation. \n" )
-    else if (length(F) == 1) 
+    else if (length(F) == 1) if (!quiet) 
         warning("Function returns a scalar. Function BBoptim or spg is better.")
 	
     F0 <- normF <- sqrt(sum(F * F))
@@ -217,7 +217,7 @@ dfsane <- function (par, fn, method = 2, control = list(), ...)
 
 ##  We do final "optim" iterations using "L-BFGS-B" when type=2 or 5
 	if (BFGS & (conv$type==2 |conv$type==5) ) {
-	cat(" Calling `L-BFGS-B' in `optim' \n")
+	if (!quiet) cat(" Calling `L-BFGS-B' in `optim' \n")
 	res <- try(optim(par=pbest, fn=U, method="L-BFGS-B", control=list(pgtol=1.e-08, factr=1000, maxit=200), ...), silent=TRUE)
 		if (class(res) == "try-error" || any(is.nan(res$par))) break
       		normF.new <- sqrt(res$value)

@@ -4,7 +4,7 @@
 \description{Spectral projected gradient method for large-scale optimization with simple constraints.}
 \usage{
      spg(par, fn, gr=NULL, method=3, project=NULL, lower=-Inf, upper=Inf, 
-         control=list(), ...)
+         control=list(), quiet=FALSE, ...)
  }
 \arguments{
     \item{par}{A real vector argument to \code{fn}, indicating the initial guess for the optimization of nonlinear 
@@ -37,6 +37,13 @@
     \item{upper}{A vector that defines upper bounds on \code{par}. Defaults to Inf} 
 
     \item{control}{A list of control parameters. See *Details*.}
+
+    \item{quiet}{A logical variable (TRUE/FALSE). If \code{TRUE} warnings 
+    and some additional information printing are suppressed.  
+    Default is \code{quiet = FALSE}
+    Note that the \code{control} variable \code{trace} and \code{quiet} 
+    affect different printing, so if \code{trace} is not set to \code{FALSE} 
+    there will be considerable printed output.}
 
     \item{...}{Additional arguments passed to \code{fn}, \code{gr}  and
       \code{project}. (All must accept any specified arguments, either 
@@ -123,7 +130,8 @@ than \code{gtol}.  Default is \code{gtol = 1.e-05}.}
 \item{maximize}{A logical variable indicating whether the objective function is to be maximized.  Default is \code{maximize = FALSE} indicating
 minimization.  For maximization (e.g. log-likelihood maximization in statistical modeling), this may be set to \code{TRUE}.}
 
-\item{trace}{A logical variable (TRUE/FALSE). If \code{TRUE}, information on the progress of optimization is printed.  Default is \code{trace = TRUE}.}
+\item{trace}{A logical variable (TRUE/FALSE). If \code{TRUE}, information on 
+the progress of optimization is printed.  Default is \code{trace = TRUE}.}
 
 \item{triter}{An integer that controls the frequency of tracing 
   when \code{trace=TRUE}. Default is \code{triter=10}, which means that
