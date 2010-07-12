@@ -13,7 +13,7 @@ BBsolve <- function(par, fn, method=c(2,3,1), control=list(), quiet=FALSE, ...)
     trace <- ctrl$trace
     triter <- ctrl$triter
     noimp <- ctrl$noimp
-    if (length(par) <= 20) NM <- ctrl$NM else NM <- FALSE
+    NM <- if (length(par) > 1 & length(par) <= 20) ctrl$NM else FALSE
 
     control.pars <- expand.grid(method=method, M=M, NM=NM)
 	

@@ -1,3 +1,31 @@
+Changes in BB version 2010.7-1 
+	   
+   o	Added function projectLinear, and adjusted spg arguments
+   	to facilitate this by adding projectArgs. Arguments lower and upper for
+	spg provide a simplified way to specify these elements of the projectArgs
+	list for box constraints. Also, the value of the spg argument project 
+	must now be indicated as a character string.
+
+   o	Corresponding changes for projectArgs were made to BBoptim.
+
+   o	Added projection examples.
+
+   o	Added fix to spg for some cases when the best value does not get 
+   	properly returned.
+
+   o	Added fix to BBoptim to indicate error in case were all calls to spg 	
+   	failed (but were caught by try and ignored).
+
+   o	Fix sign of printed value (trace=TRUE) on initial iteration of spg 
+   	maximization problem.
+
+Changes in BB version 2010.5-1 
+	   
+   o	Changed BBsolve to avoid using Nelder-Mead in one dimensional problems
+	(because the warning message is confusing).
+
+   o	Adjusted test tolerances for 64 bit Windows platform.
+
 Changes in BB version 2010.4-1 
 	   
    o	Added argument quiet=FALSE to several functions, to be able to suppress

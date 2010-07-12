@@ -175,12 +175,14 @@ hi <- c(0.999, Inf, Inf)
 y <- poissmix.dat$freq
 
 p0 <- runif(3,c(0.2,1,1),c(0.8,5,8))  # randomly generated starting values
-t.spg <- system.time(ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi, 
-control=list(maximize=T)))[1]
+t.spg <- system.time(ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, 
+   projectArgs=list(lower=lo, upper=hi), control=list(maximize=T)))[1]
 
-t.spg <- system.time(ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi, control=list(maximize=T), meth=1))[1]
+t.spg <- system.time(ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, 
+   projectArgs=list(lower=lo, upper=hi), control=list(maximize=T), meth=1))[1]
 
-t.spg <- system.time(ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi, control=list(maximize=T), meth=2))[1]
+t.spg <- system.time(ans.spg <- spg(par=p0, fn=poissmix.loglik, y=y, 
+   projectArgs=list(lower=lo, upper=hi), control=list(maximize=T), meth=2))[1]
 
 #ans.opt <- optim(par=p0, fn=poissmix.loglik, y=y, method="L-BFGS-B", lower=lo, upper=hi, 
 #	control=list(fnscale=-1))
@@ -250,11 +252,16 @@ hi <- c(Inf, Inf, Inf, Inf, 0.999)
 
 p0 <- c(runif(5,c(0,0.1,0,0.1,0.2),c(2*pi,5,2*pi,5,0.8)))
 
-t.spg <- system.time(ans.spg <- spg(par=p0, fn=vmmix.loglik, y=y, lower=lo, upper=hi, control=list(maximize=T, M=20)))[1]
+t.spg <- system.time(ans.spg <- spg(par=p0, fn=vmmix.loglik, y=y, 
+   projectArgs=list(lower=lo, upper=hi), control=list(maximize=T, M=20)))[1]
 
-t.spg <- system.time(ans.spg <- spg(par=p0, fn=vmmix.loglik, y=y, lower=lo, upper=hi, method=1, control=list(maximize=T, M=20)))[1]
+t.spg <- system.time(ans.spg <- spg(par=p0, fn=vmmix.loglik, y=y, 
+   projectArgs=list(lower=lo, upper=hi), method=1, 
+   control=list(maximize=T, M=20)))[1]
 
-t.spg <- system.time(ans.spg <- spg(par=p0, fn=vmmix.loglik, y=y, lower=lo, upper=hi, method=2, control=list(maximize=T, M=20)))[1]
+t.spg <- system.time(ans.spg <- spg(par=p0, fn=vmmix.loglik, y=y, 
+   projectArgs=list(lower=lo, upper=hi), method=2, 
+   control=list(maximize=T, M=20)))[1]
 
 #ans.opt <- optim(par=p0, fn=vmmix.loglik, y=y, method="L-BFGS-B", lower=lo, upper=hi, 
 #  control=list(fnscale=-1))

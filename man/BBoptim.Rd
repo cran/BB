@@ -4,7 +4,8 @@
 \description{A strategy using different Barzilai-Borwein steplengths to 
   optimize a nonlinear objective function subject to box constraints.}
 \usage{
-  BBoptim(par, fn, gr=NULL, method=c(2,3,1), project=NULL, lower=-Inf, upper=Inf, 
+  BBoptim(par, fn, gr=NULL, method=c(2,3,1), project=NULL, 
+  	lower=-Inf, upper=Inf, projectArgs=NULL,
 	control=list(), quiet=FALSE, ...) 
   }
 \arguments{
@@ -32,11 +33,16 @@
       returns a real vector of the same length.  It defaults to \code{NULL}.
       See *Details*.} 
 
-    \item{lower}{A vector that defines lower bounds on \code{par}.  
-      Defaults to \code{-Inf}.}
+    \item{lower}{A vector that defines lower bounds on \code{par}. This is a 
+      simple method to specify this element of \code{projectArgs}. 
+      Defaults to \code{-Inf}. See \code{spg()} for more details.}
 
-    \item{upper}{A vector that defines upper bounds on \code{par}.  
-      Defaults to \code{Inf}.} 
+    \item{upper}{A vector that defines upper bounds on \code{par}. This is a 
+      simple method to specify this element of \code{projectArgs}.  
+      Defaults to \code{Inf}. See \code{spg()} for more details.} 
+
+    \item{projectArgs}{list of arguments to \code{project}. See \code{spg()} 
+       for more details.} 
 
     \item{control}{A list of parameters governing the algorithm behaviour.  
       This list is the same as that for \code{spg} (excepting 

@@ -4,4 +4,6 @@ export(
   "BBoptim",
   "sane",
   "dfsane",
-  "spg" )
+  "spg",
+  "projectLinear" 
+  )

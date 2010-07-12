@@ -31,7 +31,8 @@ hi <- c(0.999, Inf, Inf)
 
 y <- poissmix.dat$freq
 p <- runif(3,c(0.3,1,1),c(0.7,5,8))
-system.time(ans.spg <- spg(par=p, fn=poissmix.loglik, y=y, lower=lo, upper=hi,
+system.time(ans.spg <- spg(par=p, fn=poissmix.loglik, y=y, 
+    projectArgs=list(lower=lo, upper=hi),
     control=list(maxit=2500, M=20)))[1]
 
 ans.opt <- optim(par=p, fn=poissmix.loglik, y=y, method="L-BFGS-B", lower=lo, upper=hi)

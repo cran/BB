@@ -377,11 +377,11 @@ Now, we maximize the log-likelihood function using both \emph{spg} and
 p0 <- runif(3,c(0.2,1,1),c(0.8,5,8))  # a randomly generated vector of length 3
 y <- c(162,267,271,185,111,61,27,8,3,1)
 
-ans1 <- spg(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi,
-          control=list(maximize=TRUE, trace=FALSE))
+ans1 <- spg(par=p0, fn=poissmix.loglik, y=y, 
+          lower=lo, upper=hi, control=list(maximize=TRUE, trace=FALSE))
 ans1
-ans2 <- BBoptim(par=p0, fn=poissmix.loglik, y=y, lower=lo, upper=hi, 
-          control=list(maximize=TRUE))
+ans2 <- BBoptim(par=p0, fn=poissmix.loglik, y=y, 
+         lower=lo, upper=hi, control=list(maximize=TRUE))
 ans2
 \end{Scode}
 

@@ -1,5 +1,6 @@
 BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL, 
-     lower=-Inf, upper=Inf, control=list(), quiet=FALSE, ...) 
+     lower=-Inf, upper=Inf, projectArgs=NULL,
+     control=list(), quiet=FALSE, ...) 
     {
     ctrl <- list(maxit = 1500, M = c(50, 10), gtol = 1e-05, maxfeval = 10000, 
         maximize = FALSE, trace = FALSE, triter = 10, eps = 1e-07)
@@ -19,11 +20,12 @@ BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL,
     control.pars <- expand.grid(method=method, M=M)
 
     feval <- iter <-  0
+    ans.best <- NULL
     ans.best.value <- Inf
     for (i in 1: nrow(control.pars) ) {
       cpars <- unlist(control.pars[i, ])
       temp <- try(spg(par=par, fn=fn, gr=gr, method=cpars[1], project=project, 
-	            lower=lower, upper=upper, 
+	            lower=lower, upper=upper, projectArgs=projectArgs, 
 		    control=list(M=as.numeric(cpars[2]), maxit=maxit, 
 		       maximize=maximize, trace=trace, triter=triter, 
 		       maxfeval=maxfeval, eps=eps),
@@ -49,6 +51,8 @@ BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL,
    	      }
          }
       }  # "i" loop completed
+
+    if (is.null(ans.best)) stop("All calls to spg failed. Last error: ", temp)
 
     if(!quiet) {if (ans.best$convergence != 0)
                      cat ("  Unsuccessful convergence.\n")

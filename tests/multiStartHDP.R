@@ -25,10 +25,12 @@ ans <- multiStart(par=p0, fn=hdp)
 #plot(pc$scores[,1])  # you can see all 12 solutions
  
 z <- sum(ans$par[ans$converged,])
-good   <-    69.0642609408530
-#on Windows 
-#on Linux64  69.0642609408530
-#on CRAN Mac 67.24096047829846 had to change fuz from 0.5 to 2.0 for this
+good   <-      67.5
+#on Windows32
+#on Windows64  65.6121918520524
+
+#on Linux64    69.0642609408530
+#on CRAN Mac   67.24096047829846 had to change fuzz from 0.5 to 2.0 for this
 # the R-forge Mac testing worked with 0.5
 
  # before  M changed from 10,50 to 50,10 default:70.0682292316792  
