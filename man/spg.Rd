@@ -72,8 +72,8 @@
 \item{feval}{Number of times the objective \code{fn} was evaluated.}
 
 \item{convergence}{An integer code indicating type of convergence.  \code{0} 
-  indicates successful convergence, in which case the \code{resid} is smaller 
-  than \code{tol}.  Error codes are: \code{1} indicates that the maximum limit 
+  indicates successful convergence, in which case the projcted gradient is smaller 
+  than \code{pgtol} or the change in objective function is smaller than \code{ftol}.  Error codes are: \code{1} indicates that the maximum limit 
   for iterations \code{maxit} has been reached.  \code{2} indicates that 
   maximum limit on function evals has been exceeded.  \code{3} indicates 
   failure due to error in function evaluation. \code{4} indicates failure due 
@@ -124,6 +124,9 @@ enforcing the Grippo-Lampariello-Lucidi condition (Grippo et al. 1986) in a non-
 between 5 to 20 are generally good.  The default is \code{M = 10}.} 
 
 \item{maxit}{The maximum number of iterations.  The default is \code{maxit = 1500}.}
+
+\item{ftol}{Convergence tolerance on the absolute change in objective function between successive iterations.  
+Convergence is declared when the change is less than \code{ftol}.  Default is \code{ftol = 1.e-10}.}
 
 \item{gtol}{Convergence tolerance on the infinity-norm of projected gradient \code{gr} evaluated at the current parameter.  
 Convergence is declared when the infinity-norm of projected gradient is less

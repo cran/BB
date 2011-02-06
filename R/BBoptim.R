@@ -2,7 +2,7 @@ BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL,
      lower=-Inf, upper=Inf, projectArgs=NULL,
      control=list(), quiet=FALSE, ...) 
     {
-    ctrl <- list(maxit = 1500, M = c(50, 10), gtol = 1e-05, maxfeval = 10000, 
+    ctrl <- list(maxit = 1500, M = c(50, 10), ftol=1.e-10, gtol = 1e-05, maxfeval = 10000, 
         maximize = FALSE, trace = FALSE, triter = 10, eps = 1e-07)
     namc <- names(control)
     if (!all(namc %in% names(ctrl))) 
@@ -11,6 +11,7 @@ BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL,
     ctrl[namc] <- control
     M <- ctrl$M
     maxit <- ctrl$maxit
+    ftol <- ctrl$ftol
     gtol <- ctrl$gtol
     maxfeval <- ctrl$maxfeval
     maximize <- ctrl$maximize
@@ -28,7 +29,7 @@ BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL,
 	            lower=lower, upper=upper, projectArgs=projectArgs, 
 		    control=list(M=as.numeric(cpars[2]), maxit=maxit, 
 		       maximize=maximize, trace=trace, triter=triter, 
-		       maxfeval=maxfeval, eps=eps),
+		       maxfeval=maxfeval, eps=eps, gtol=gtol, ftol=ftol),
 		    quiet=quiet, ...),    silent=TRUE)
 
       if (!inherits(temp, "try-error")) {

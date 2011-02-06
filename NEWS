@@ -1,3 +1,8 @@
+Changes in BB version 2011.2-1 
+
+	o Added an additional stopping criterion.  Now, the iterations 		are stopped when function value does not change by more 		than `ftol' between successive iterations. 
+		Default is ftol = 1.e-14 
+
 Changes in BB version 2010.7-1 
 	   
    o	Added function projectLinear, and adjusted spg arguments

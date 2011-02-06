@@ -74,7 +74,7 @@ sequential strategy:
 }
 
 The argument \code{control} defaults to a list with values 
- \code{maxit = 1500, M = c(50, 10), gtol = 1e-05, maxfeval = 10000, 
+ \code{maxit = 1500, M = c(50, 10), ftol=1.e-10, gtol = 1e-05, maxfeval = 10000, 
   maximize = FALSE, trace = FALSE, triter = 10, eps = 1e-07}. 
 If \code{control} is specified as an argument, only values which are different
 need to be given in the list. See \code{spg} for more details.

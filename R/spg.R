@@ -28,7 +28,8 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
 
 
   # control defaults
-  ctrl <- list(M=10, maxit=1500, gtol=1.e-05, maxfeval=10000, maximize=FALSE, 
+  # Added `ftol' to the control list:  RV change on 02-06-2011 
+  ctrl <- list(M=10, maxit=1500, ftol=1.e-10, gtol=1.e-05, maxfeval=10000, maximize=FALSE, 
         trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad.tol=1.e-06) 
   namc <- names(control)
   if (! all(namc %in% names(ctrl)) )
@@ -38,6 +39,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   M	   <- ctrl$M
   maxit    <- ctrl$maxit
   gtol     <- ctrl$gtol
+  ftol     <- ctrl$ftol     # RV change on 02-06-2011
   maxfeval <- ctrl$maxfeval
   maximize <- ctrl$maximize
   trace    <- ctrl$trace
@@ -118,6 +120,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   iter <-  feval <-  geval <- 0
   lastfv <- rep(-1.e99, M)
   fbest <- NA
+  fchg <- Inf          # RV change on 02-06-2011
  
   # c() in next is for case of a 1x1 matrix value
   func <- if (maximize) function(par, ...) c(-fn(par, ...))
@@ -184,7 +187,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   #  Main iterative loop
   #######################
   lsflag <- NULL # for case when tol is already ok initially and while loop is skipped
-  while( pginfn > gtol & iter <= maxit ) {
+  while( pginfn > gtol & iter <= maxit & fchg > ftol) {     # RV change on 02-06-2011 
       iter <- iter + 1
  
    d <- par - lambda * g
@@ -208,7 +211,8 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
       lsflag <- nmls.ans$lsflag
  
       if(lsflag != 0) break
- 
+
+      fchg <- abs(f - nmls.ans$f)  # RV change on 02-06-2011 
       f     <- nmls.ans$f
       pnew  <- nmls.ans$p
       feval <- nmls.ans$feval
@@ -272,7 +276,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
 	}
  
   if (lsflag==0) {
-    if (pginfn <= gtol) conv <- list(type=0, message="Successful convergence")
+    if (pginfn <= gtol | fchg <= ftol) conv <- list(type=0, message="Successful convergence")
     if (iter >= maxit)  conv <- list(type=1, message="Maximum number of iterations exceeded")
     f.rep <- (-1)^maximize * fbest  # This bug was fixed by Ravi Varadhan.  March 29, 2010.
     par <- pbest
