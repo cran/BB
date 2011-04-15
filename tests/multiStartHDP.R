@@ -24,18 +24,21 @@ ans <- multiStart(par=p0, fn=hdp)
 #pc <- princomp(ans$par)
 #plot(pc$scores[,1])  # you can see all 12 solutions
  
+# 69.523408062911   on Windows32 R-2.13.0 April 2011
+# 65.6121918520524  on Windows64 
+
+# 69.0642609408530  on Linux64   
+# 69.06426094085302 on Linux64 Ubuntu R-2.13.0 April 2011
+
+# 67.24096047829846 on CRAN Mac had to change fuzz from 0.5 to 2.0 for this
+# the R-forge Mac testing worked with 0.5 fuzz
+
+# 70.0682292316792 default before  M changed from 10,50 to 50,10   
+# 68.6429426963639  
+# 68.4364913774026  on Linux32  
+# good set to  67.5 with fuzz=2.0 before R-2.13.0 April 2011
+good   <-      68
 z <- sum(ans$par[ans$converged,])
-good   <-      67.5
-#on Windows32
-#on Windows64  65.6121918520524
-
-#on Linux64    69.0642609408530
-#on CRAN Mac   67.24096047829846 had to change fuzz from 0.5 to 2.0 for this
-# the R-forge Mac testing worked with 0.5
-
- # before  M changed from 10,50 to 50,10 default:70.0682292316792  
- # early defaults: 68.6429426963639
-#on Linux32  # early defaults: 68.4364913774026
 
 print(z, digits=16)
 if(any(abs(good - z) > 2.0)) stop("BB test BBsolve HDP FAILED")

@@ -37,36 +37,44 @@ p0 <- runif(500,min=-1, max=1)
 system.time(ans.spg <- spg(par=p0, fn=sc2.f, control=list(maxit=2500)))[1]
 
 z <- sum(ans.spg$par)
-good   <-    2.862543216705235e-05
-#on Windows -0.0002158022390025393
+# -0.0002158022390025393 on Windows 
+#  0.001523050487259005 on Windows i386-pc-mingw32 (32-bit) R 2.13.0 (2011-04-13)
+
+good   <-    0.0
 print(z, digits=16)
-if(any(abs(good - z) > 1e-3)) stop("BB test sc2 a FAILED")
+if(any(abs(good - z) > 0.002)) stop("BB test sc2 a FAILED")
 
 system.time(neg.ans.spg <- spg(par=p0, fn=neg.sc2.f, 
               control=list(maxit=2500, maximize=TRUE)))[1]
 
 z <- sum(neg.ans.spg$par)
-good   <-    2.862543216705235e-05
+good   <-    0.0
 print(z, digits=16)
-if(any(abs(good - z) > 1e-3)) stop("BB test neg sc2 a FAILED")
+if(any(abs(good - z) > 0.002)) stop("BB test neg sc2 a FAILED")
 
 system.time(ans.spg <- spg(par=p0, fn=sc2.f, gr=sc2.g,
    control=list(maxit=2500)))[1]
 
 z <- sum(ans.spg$par)
-good <- 2.565413040899874e-06
-#on Linux64 2.565413040899874e-06 (mfacl2)
-#on Linux64 6.677493403589264e-05
+# 2.565413040899874e-06 Linux64 (mfacl2)
+# 6.677493403589264e-05 Linux64
+# 0.0002100097368926836 i386-pc-solaris2.10 (32-bit) CRAN R 2.13.0 Patched (2011-04-15 r55454)
+# 0.0006271870150276102 i386-apple-darwin9.8.0 (32-bit) CRAN R 2.13.0 Under development (unstable) (2011-03-07 r54691) 
+# 0.0005317982091112333 x86_64-unknown-linux-gnu (64-bit) CRAN fedora 2.14.0 Under development (unstable) (2011-04-14 r55450) 
+
+good <- 0.0
 print(z, digits=16)
-if(any(abs(good - z) >  1e-4)) stop("BB test sc2 b FAILED")
+# test tol relaxed from 1e-4 to 1e-3 when ftol arg added to spg  2011.2-1
+if(any(abs(good - z) >  0.001)) stop("BB test sc2 b FAILED")
 
 system.time(neg.ans.spg <- spg(par=p0, fn=neg.sc2.f, gr=neg.sc2.g,
    control=list(maxit=2500, maximize=TRUE)))[1]
 
 z <- sum(neg.ans.spg$par)
-good <- 2.565413040899874e-06
+good <- 0.0
 print(z, digits=16)
-if(any(abs(good - z) >  1e-4)) stop("BB test neg.sc2 b FAILED")
+# test tol relaxed from 1e-4 to 1e-3 when ftol arg added to spg  2011.2-1
+if(any(abs(good - z) >  0.001)) stop("BB test neg.sc2 b FAILED")
 
 system.time(ans.opt <- optim(par=p0, fn=sc2.f, method="L-BFGS-B"))[1]
 
@@ -81,9 +89,10 @@ if(any(abs(good - z) > 1e-4)) stop("BB test sc2 c FAILED")
 system.time(ans.opt <- optim(par=p0, fn=sc2.f, gr=sc2.g, method="L-BFGS-B"))[1]
 
 z <- sum(ans.opt$par)
-good   <-   0.02200130759852783
-#on Windows 0.02200130758634488
-#on Linux64 0.02200130759852783
-#on Linux32 0.02200130759779934
+# 0.02200130758634488 on Windows
+# 0.02200130759852783 on Linux64
+# 0.02200130759779934 on Linux32
+
+good <- 0.02200130759852783
 print(z, digits=16)
 if(any(abs(good - z) > 1e-9)) stop("BB test sc2 d FAILED")

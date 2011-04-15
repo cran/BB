@@ -97,12 +97,14 @@ good   <-   11.28100000000000
 #on Linux32 11.28105871638063
 #on Linux32 11.28061301609979
 print(z, digits=16)
-if(any(abs(good - z) > 1e-3)) stop("BB test vmmix.loglik a1 FAILED")
+# test tol relaxed from 1e-3 to 5e-3 when ftol arg added to spg  2011.2-1
+if(any(abs(good - z) > 5e-3)) stop("BB test vmmix.loglik a1 FAILED")
 
 
 z <- sum(ans.spg2$par)
 print(z, digits=16)
-if(any(abs(good - z) > 1e-3)) stop("BB test vmmix.loglik a2 FAILED")
+# test tol relaxed from 1e-3 to 5e-3 when ftol arg added to spg  2011.2-1
+if(any(abs(good - z) > 5e-3)) stop("BB test vmmix.loglik a2 FAILED")
  
 z <- sum(ans.opt$par)
 good   <-   11.28032840876373
