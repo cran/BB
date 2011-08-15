@@ -37,7 +37,8 @@ ans <- multiStart(par=p0, fn=hdp)
 # 68.6429426963639  
 # 68.4364913774026  on Linux32  
 # good set to  67.5 with fuzz=2.0 before R-2.13.0 April 2011
-good   <-      68
+# good set to  68  with fuzz=2.0  before adjusting noimp to default 100 in BBsolve 
+good   <-      67.5
 z <- sum(ans$par[ans$converged,])
 
 print(z, digits=16)

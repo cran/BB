@@ -26,7 +26,7 @@ BBsolve <- function(par, fn, method=c(2,3,1), control=list(), quiet=FALSE, ...)
       temp <- try(dfsane(par=par, fn, method=cpars[1], 
                          control=list(M=as.numeric(cpars[2]), NM=cpars[3], 
 			   maxit=maxit, tol=tol, trace=trace, triter=triter, 
-			   noimp=min(100, 5*cpars[2])),
+			   noimp=noimp),
 			 quiet=quiet, ...), silent=TRUE)
       if (!inherits(temp, "try-error")) {
          feval <- feval + temp$feval

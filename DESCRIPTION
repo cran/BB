@@ -8,8 +8,8 @@ Description: Barzilai-Borwein spectral methods for solving nonlinear
         session, with vignette("BB").
 Depends: R (>= 2.6.1), quadprog
 Suggests: setRNG, survival, Hmisc, numDeriv
-Version: 2011.2-2
-Date: 2011-04-15
+Version: 2011.8-1
+Date: 2011-08-15
 LazyLoad: yes
 License: GPL (>= 2)
 Author: Ravi Varadhan
@@ -19,6 +19,6 @@ URL:
         http://www.jhsph.edu/agingandhealth/People/Faculty_personal_pages/Varadhan.html
 Repository: CRAN
 Repository/R-Forge/Project: optimizer
-Repository/R-Forge/Revision: 419
-Date/Publication: 2011-04-23 20:53:42
-Packaged: 2011-04-17 20:36:18 UTC; rforge
+Repository/R-Forge/Revision: 503
+Date/Publication: 2011-08-17 05:29:26
+Packaged: 2011-08-16 20:32:51 UTC; rforge
