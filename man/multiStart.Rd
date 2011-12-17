@@ -5,7 +5,7 @@
 points to obtain multiple solutions and to test sensitivity to starting values.}
 \usage{
   multiStart(par, fn, gr=NULL, action = c("solve", "optimize"), 
-	method=c(2,3,1), control=list(), quiet=FALSE, details=FALSE, ...) 
+	method=c(2,3,1), project=NULL, projectArgs=NULL, control=list(), quiet=FALSE, details=FALSE, ...) 
   }
 \arguments{
     \item{par}{A real matrix, each row of which is an argument to \code{fn},
@@ -16,6 +16,15 @@ points to obtain multiple solutions and to test sensitivity to starting values.}
     \item{action}{A character string indicating whether to solve a nonlinear 
       system or to optimize.  Default is ``solve''.} 
     \item{method}{see \code{BBsolve} or \code{BBoptim}.} 
+    \item{project}{A character string indicating the name of the projection
+      function that takes a point in \eqn{R^n}{R^n} and 
+      projects it onto a region that defines the constraints of the problem.  
+      This is a vector-function that takes a real vector as argument and 
+      returns a real vector of the same length. See *Details*. 
+      It defaults to "projectBox" which implies a box constraint defined by 
+      \code{lower} and \code{upper}.} 
+    \item{projectArgs}{A list with arguments to the \code{project}  
+      function.}
     \item{control}{See \code{BBsolve} and \code{BBoptim}.}
     \item{quiet}{A logical variable (TRUE/FALSE). If \code{TRUE} warnings 
     and some additional information printing are suppressed.  

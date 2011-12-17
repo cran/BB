@@ -39,8 +39,7 @@ spg	function for spectral projected gradient method for large-scale
         optimization with simple constraints
 }
 
-Maintainer:Ravi Varadhan <rvaradhan@jhmi.edu> and 
-   Paul Gilbert <pgilbert@bank-banque-canada.ca> 
+Maintainer:Ravi Varadhan <rvaradhan@jhmi.edu> and  Paul Gilbert 
 }
 \author{Ravi Varadhan}
 \references{

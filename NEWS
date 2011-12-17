@@ -1,3 +1,16 @@
+Changes in BB version 2011.12-1
+
+   o	Set trace=TRUE as default in BBoptim.
+
+   o	Included project and projectArgs as arguments in multiStart.
+
+Changes in BB version 2011.11-1
+
+   o	updated maintainer email address.
+
+   o	Relaxed the tolerance of tests/multiStartHDP because of variance in
+   	the results on different platforms.
+
 Changes in BB version 2011.8-1 
 
    o	Fixed passing of user specified noimp from BBsolve to dfsane. The default
