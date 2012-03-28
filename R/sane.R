@@ -199,17 +199,20 @@ sane <- function (par, fn, method = 2, control = list(), quiet=FALSE, ...)  {
 ##  We do final "optim" iterations using "L-BFGS-B" when type=4 or 5
 	if (BFGS & (conv$type==4 | conv$type==5) ) {
 	if (!quiet) cat("Calling `L-BFGS-B' in `optim' \n")
-	res <- try(optim(par=pbest, fn=U, method="L-BFGS-B", control=list(pgtol=1.e-08, factr=1000, maxit=200), ...), silent=TRUE)
-		if (class(res) == "try-error" || any(is.nan(res$par))) break
+	res <- try(optim(par=pbest, fn=U, method="L-BFGS-B", 
+	               control=list(pgtol=1.e-08, factr=1000, maxit=200), ...), 
+	           silent=TRUE)
+        if (!inherits(res, "try-error") && !any(is.nan(res$par)) ) {
       		normF.new <- sqrt(res$value)
  		if (normF.new < normF.best) {
 			normF.best <- normF.new
 			pbest <- res$par
 			}
-		fcnt <- fcnt + as.numeric(res$counts[1])
+ 		}
+	fcnt <- fcnt + as.numeric(res$counts[1])
 
-      if (normF.best/sqrt(length(par)) <= tol) 
-      	conv <- list(type = 0, message = "Successful convergence")
+        if (normF.best/sqrt(length(par)) <= tol) 
+        	conv <- list(type = 0, message = "Successful convergence")
 	}
 	
     return(list(par = pbest, residual = normF.best/sqrt(length(par)), 

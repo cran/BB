@@ -17,7 +17,7 @@ f[j] <-  1 - x[jm1]
 f
 }
 
-p0 <- runif(500)
+p0 <- runif(50)
 ans1 <- dfsane(par=p0, fn=extrosbk, method=1)
 ans2 <- dfsane(par=p0, fn=extrosbk, method=2)
 ans3 <- sane(par=p0, fn=extrosbk, method=1)
@@ -27,11 +27,11 @@ ans4 <- sane(par=p0, fn=extrosbk, method=2)
 c(ans1$resid, ans2$resid,ans3$resid, ans4$resid) #, ans$val) 
 c(ans1$feval, ans2$feval,ans3$feval,ans4$feval) #, ans$counts[1]) 
 
-nsim <- 3
+nsim <- 10
 dfsane1.extrosbk <- dfsane2.extrosbk <- sane1.extrosbk <- sane2.extrosbk <- matrix(NA, nsim, 5)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
-p0 <- runif(500)
+p0 <- runif(50)
 t1 <- system.time(ans <- sane(par=p0, fn=extrosbk, method=1, control=list(BFGS=TRUE, trace=F)))[1]
 if (!is.null(ans))sane1.extrosbk[i, ] <- c(ans$resid, ans$feval, ans$iter, ans$conv, t1)
 t2 <- system.time(ans <- sane(par=p0, fn=extrosbk, method=2, control=list(BFGS=TRUE, trace=F)))[1]

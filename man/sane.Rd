@@ -160,7 +160,7 @@ termination of \code{sane}. Default is \code{BFGS=FALSE}.}
     F
     }
 
-    p0 <- rnorm(1000)
+    p0 <- rnorm(50)
     sane(par=p0, fn=trigexp)
     sane(par=p0, fn=trigexp, method=1)    
 ######################################
@@ -174,7 +174,7 @@ brent <- function(x) {
   F
   }
   
-  p0 <- sort(runif(100, 0, 20))
+  p0 <- sort(runif(50, 0, 10))
   sane(par=p0, fn=brent, control=list(trace=FALSE))
   sane(par=p0, fn=brent, control=list(M=200, trace=FALSE))
 }

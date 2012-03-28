@@ -81,7 +81,7 @@ f[n] <- ((3 - h*x[n]) * x[n]) - x[n-1] + 1
 f
 }
 
-p0 <- rnorm(500)
+p0 <- rnorm(50)
 BBsolve(par=p0, fn=broydt)  # this works 
 dfsane(par=p0, fn=broydt) # but this is highly unliikely to work.
 BBsolve(par=p0, fn=broydt, control=list(M=50, NM=FALSE))  # this implements the 3 BB steplengths with M = 50, and without Nelder-Mead initialization

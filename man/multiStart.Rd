@@ -72,7 +72,7 @@ brownlin <- function(x) {
 }
 
 p <- 9
-n <- 100
+n <- 50
 p0 <- matrix(rnorm(n*p), n, p)  # n starting values, each of length p
 ans <- multiStart(par=p0, fn=brownlin)
 pmat <- ans$par[ans$conv, 1:p] # selecting only converged solutions
@@ -91,7 +91,7 @@ p0 <- rnorm(50)
 spg(par=p0, fn=rosbkext)
 BBoptim(par=p0, fn=rosbkext)
 
-pmat <- matrix(rnorm(500), 100, 5)  # 100 starting values each of length 5 
+pmat <- matrix(rnorm(100), 20, 5)  # 20 starting values each of length 5 
 ans <- multiStart(par=pmat, fn=rosbkext, action="optimize")
 ans
 attr(ans, "details")[[1]]  # 

@@ -75,7 +75,6 @@ p <- c(runif(5,c(0,0.1,0,0.1,0.2),c(2*pi,5,2*pi,5,0.8)))
 system.time(ans.spg <- spg(par=p, fn=vmmix.loglik, y=y, 
    lower=lo, upper=hi, 
    control=list(maxit=2500, gtol=1.e-06, M=20, trace=T)))[1]
-ans.opt <- optim(par=p, fn=vmmix.loglik, y=y, method="L-BFGS-B", lower=lo, upper=hi)
 
 # this should give the same reult. It just tests passing project arg
 Userproject <- function(x, lower, upper, ...) {
@@ -106,30 +105,3 @@ print(z, digits=16)
 # test tol relaxed from 1e-3 to 5e-3 when ftol arg added to spg  2011.2-1
 if(any(abs(good - z) > 5e-3)) stop("BB test vmmix.loglik a2 FAILED")
  
-z <- sum(ans.opt$par)
-good   <-   11.28032840876373
-#on Windows 11.28032868302692
-#on Linux64 11.28032840876373
-#on Linux32 11.28032868197765
-print(z, digits=16)
-if(any(abs(good - z) > 1e-4)) stop("BB test vmmix.loglik  b FAILED")
-
-# previously had this, but it requires numDeriv
-#gs <- grad(ans.spg$par, func=vmmix.loglik, y=y)
-#go <- grad(ans.opt$par, func=vmmix.loglik, y=y)
-#
-#z <- sum(gs)
-#good	<-   -0.0001803984142419232
-##on Windows -0.00016745341957699
-##on Linux64 -0.0001803984142419232
-##on Linux32 -0.000008890766665183735
-#print(z, digits=16)
-#if(any(abs(good - z) > 1e-3)) stop("BB test vmmix.loglik a FAILED")
-#
-#z <- sum(go )
-#good	<-   -0.02992184037618598
-##on Windows -0.02989100666129558
-##on Linux64 -0.02992184037618598
-##on Linux32 -0.029891113567616
-#print(z, digits=16)
-#if(any(abs(good - z) > 1e-3)) stop("BB test vmmix.loglik  b FAILED")

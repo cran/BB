@@ -15,23 +15,11 @@ f <- (v - sqrt(v^2 + 5e-04))/2
 sum (f * f)
 }
 
-p0 <- rexp(500)
+p0 <- rexp(50)
 system.time(ans.spg <- spg(par=p0, fn=chen.f, lower=0))[1]
-system.time(ans.opt <- optim(par=p0, fn=chen.f, lower=0, method="L-BFGS-B"))[1]
  
 z <- sum(ans.spg$par)
-good   <-   533.51137569165
-#on Windows 533.5113756719724
-#on Linux64 533.51137569165
-#on Linux32 533.5113756637895
+good   <-   61.9720512703
 print(z, digits=16)
 if(any(abs(good - z) > 1e-7)) stop("BB test chen.f a FAILED")
  
-z <- sum(ans.opt$par)
-good   <-   2243.132018091285
-#on Windows 2243.132049338848
-#on Linux64 2243.132018091285
-#on Linux32 2243.13201669202
-print(z, digits=16)
-if(any(abs(good - z) > 1e-4)) stop("BB test chen.f b FAILED")
-

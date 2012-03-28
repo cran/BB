@@ -35,8 +35,6 @@ system.time(ans.spg <- spg(par=p, fn=poissmix.loglik, y=y,
     projectArgs=list(lower=lo, upper=hi),
     control=list(maxit=2500, M=20)))[1]
 
-ans.opt <- optim(par=p, fn=poissmix.loglik, y=y, method="L-BFGS-B", lower=lo, upper=hi)
-
 z <- sum(ans.spg$par)
 good   <-   4.55961554279947
 #on Windows 
@@ -45,30 +43,3 @@ good   <-   4.55961554279947
 print(z, digits=16)
 if(any(abs(good - z) > 1e-4)) stop("BB test poissmix.loglik a FAILED")
  
-z <- sum(ans.opt$par)
-good   <-   4.559591104801197
-#on Windows 
-#on Linux64 4.559591104801197
-#on Linux32 4.559591104765728
-print(z, digits=16)
-if(any(abs(good - z) > 1e-7)) stop("BB test poissmix.loglik  b FAILED")
-
-# previously had this, but it requires numDeriv
-# gs <- grad(ans.spg$par, func=poissmix.loglik, y=y)
-# go <- grad(ans.opt$par, func=poissmix.loglik, y=y)
-# 
-# z <- sum(gs)
-# good   <-   -5.67754925616287e-05
-# #on Windows -4.71930879954166e-05
-# #on Linux64 -5.67754925616287e-05
-# #on Linux32 -5.977318565483925e-05
-# print(z, digits=16)
-# if(any(abs(good - z) > 1e-4)) stop("BB test poissmix.loglik a FAILED")
-#  
-# z <- sum(go)
-# good   <-   -0.02406681796932953
-# #on Windows -0.02406681567531174
-# #on Linux64 -0.02406681796932953
-# #on Linux32 -0.02406680917045426
-# print(z, digits=16)
-# if(any(abs(good - z) > 1e-7)) stop("BB test poissmix.loglik  b FAILED")

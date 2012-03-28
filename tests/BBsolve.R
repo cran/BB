@@ -19,13 +19,14 @@ f
 }
 
 
-p0 <- rnorm(500)
+p0 <- rnorm(50)
 ans.opt <- BBsolve(par=p0, fn=broydt)  # note that the default doesn't work generally.
 
 ans.opt$convergence
  
 z <- sum(ans.opt$par)
-good   <-  -352.9190956497645 
+#good   <-  -352.9190956497645 
+good   <-  -34.72104 
 #on Windows 
 #on Linux64 
 #on Linux32  -352.9190956497645

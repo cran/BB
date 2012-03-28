@@ -1,3 +1,7 @@
+Changes in BB version 2012.3-1
+
+   o	fixed use of break in a non-loop context in sane and dfsane.
+
 Changes in BB version 2011.12-1
 
    o	Set trace=TRUE as default in BBoptim.

@@ -185,7 +185,7 @@ sc2.f <- function(x){ sum((1:length(x)) * (exp(x) - x)) / 10}
 
 sc2.g <- function(x){ (1:length(x)) * (exp(x) - 1) / 10}
 
-p0 <- rnorm(200)
+p0 <- rnorm(50)
 ans.spg1 <- spg(par=p0, fn=sc2.f)  # Default is method=3
 ans.spg2 <- spg(par=p0, fn=sc2.f, method=1)
 ans.spg3 <- spg(par=p0, fn=sc2.f, method=2)
@@ -211,7 +211,7 @@ valley.f <- function(x, cons) {
   }
 
 k <- c(1.003344481605351, -3.344481605351171e-03)
-p0 <- rnorm(300)  # number of parameters should be a multiple of 3 for this example
+p0 <- rnorm(30)  # number of parameters should be a multiple of 3 for this example
 ans.spg2 <- spg(par=p0, fn=valley.f, cons=k, method=2)  
 ans.cg <- optim(par=p0, fn=valley.f, cons=k, method="CG")  
 ans.lbfgs <- optim(par=p0, fn=valley.f, cons=k, method="L-BFGS-B")  

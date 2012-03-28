@@ -101,7 +101,7 @@ jm1 <- j - 1
 sum(100 * (x[j] - x[jm1]^2)^2 + (1 - x[jm1])^2)
 }
 
-p0 <- rnorm(500)
+p0 <- rnorm(50)
 spg(par=p0, fn=rosbkext)
 BBoptim(par=p0, fn=rosbkext)
 BBoptim(par=p0, fn=rosbkext, lower=0) # compare the improvement in convergence when bounds are specified

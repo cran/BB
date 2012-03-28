@@ -20,23 +20,12 @@ f[n] <- ((3 - 0.5*x[n]) * x[n]) - x[n-1] + 1
 sum(f*f)
 }
 
-p0 <- rnorm(100, sd=1)
-system.time(ans.spg <- spg(par=p0, fn=broydt.f))[1]
-system.time(ans.opt <- optim(par=p0, fn=broydt.f, method="L-BFGS-B"))[1]
+p0 <- rnorm(50, sd=1)
+system.time(ans.spg <- spg(par=p0, fn=broydt.f, control=list(maxit=10000)))[1]
  
 z <- sum(ans.spg$par)
-good   <-   98.55031219348329
-#on Windows 98.513096595265
-#on Linux64 98.55031219348329
-#on Linux32 98.6221556927617
-#on CRAN    98.6625515502629
+# good   <-   13.6791297530 converged ?
+good   <-   3.393768541175171
 print(z, digits=16)
 if(any(abs(good - z) > 5e-1)) stop("BB test broydt.f a FAILED")
  
-z <- sum(ans.opt$par)
-good   <-   111.5078705487698
-#on Windows 111.5442515847844
-#on Linux64 111.5078705487698
-#on Linux32 111.5128927193081
-print(z, digits=16)
-if(any(abs(good - z) > 5e-1)) stop("BB test broydt.f b FAILED")

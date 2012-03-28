@@ -18,15 +18,9 @@ expo1 <- function(x) {
     	f
     	}
 
-ans <- dfsane(par=runif(100), fn=expo1)
+ans <- dfsane(par=runif(50), fn=expo1)
  
 z <- sum(ans$par)
-#good   <-  99.9944496188613 #pre 2008-11.1
-good   <-   99.9948355416    #2008-11.1
-#on Windows 99.9944496188436
-#on Linux64 99.9944496188613 pre 2008-11.1
-#on Linux32 99.9944496188436 pre 2008-11.1
-#on Linux32 99.9948355418059 2008-11.1
-#on Linux64 99.9948355414489 2008-11.1
+good   <-   49.9963301148
 print(z, digits=16)
 if(any(abs(good - z) > 1e-9)) stop("BB test dfsane FAILED")

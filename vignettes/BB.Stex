@@ -105,7 +105,7 @@ F[n] <- -x[n-1] * exp(x[n-1] - x[n]) + 4*x[n] - 3
 F
 }
 
-n <- 10000
+n <- 50
 p0 <- runif(n)
 ans <- dfsane(par=p0, fn=trigexp, control=list(trace=FALSE))
 ans$message
@@ -185,20 +185,20 @@ hdp <- function(x) {
   }
 \end{Scode}
 
-We generate 200 randomly generated starting values, each a vector of length 
+We generate 100 randomly generated starting values, each a vector of length 
 equal to 3. (Setting the seed is only necessary to reproduce the result 
 shown here.)
 
 \begin{Scode}{results=hide}
 setRNG(list(kind="Wichmann-Hill", normal.kind="Box-Muller", seed=123))
 
-p0 <- matrix(runif(600), 200, 3)  # 200 starting values, each of length 3
+p0 <- matrix(runif(300), 100, 3)  # 100 starting values, each of length 3
 ans <- multiStart(par=p0, fn=hdp, action="solve")
 sum(ans$conv)  # number of successful runs = 190
 pmat <- ans$par[ans$conv, ] # selecting only converged solutions
 \end{Scode}
 
-Now, we display the 12 unique real solutions.
+Now, we display the unique real solutions.
 \begin{Scode}
 ans <- round(pmat, 4)
 ans[!duplicated(ans), ]
@@ -252,7 +252,7 @@ rmat[10,] <- c(-0.25, 3.75)
 \end{Scode}
 
 We solve the system of equations for the above 10 specifications of skewness 
-and kurtosis 5 times, each time with a different random starting seed.  
+and kurtosis 3 times, each time with a different random starting seed.  
 
 \begin{Scode}
 # 1
@@ -296,32 +296,6 @@ ans3 <- cbind(rmat, ans3)
 colnames(ans3) <- c("skew", "kurtosis", "B", "C", "D")
 ans3
 
-# 4
-setRNG(list(kind="Mersenne-Twister", normal.kind="Inversion", seed=57913))
-
-ans4 <- matrix(NA, nrow(rmat), 3)
-for (i in 1:nrow(rmat)) {
-  x0 <- rnorm(3)  # random starting value
-  temp <- BBsolve(par=x0, fn=fleishman, r1=rmat[i,1], r2=rmat[i,2])
-  if (temp$conv == 0) ans4[i, ] <- temp$par
-  }
-ans4 <- cbind(rmat, ans4)
-colnames(ans4) <- c("skew", "kurtosis", "B", "C", "D")
-ans4
-
-
-# 5
-setRNG(list(kind="Mersenne-Twister", normal.kind="Inversion", seed=35791))
-
-ans5 <- matrix(NA, nrow(rmat), 3)
-for (i in 1:nrow(rmat)) {
-  x0 <- rnorm(3)  # random starting value
-  temp <- BBsolve(par=x0, fn=fleishman, r1=rmat[i,1], r2=rmat[i,2])
-  if (temp$conv == 0) ans5[i, ] <- temp$par
-  }
-ans5 <- cbind(rmat, ans5)
-colnames(ans5) <- c("skew", "kurtosis", "B", "C", "D")
-ans5
 \end{Scode}
 
 This usually finds an accurate root of the Fleishman system successfully in all 50 cases (but may occassionaly fail with different seeds). 
@@ -411,7 +385,7 @@ specify `\emph{action = "optimize"}', because the default option in
 
 \begin{Scode}{results=hide}
 # 3 randomly generated starting values
-p0 <- matrix(runif(300, c(0.2,1,1), c(0.8,8,8)), 100, 3, byrow=TRUE)  
+p0 <- matrix(runif(30, c(0.2,1,1), c(0.8,8,8)), 10, 3, byrow=TRUE)  
 ans <- multiStart(par=p0, fn=poissmix.loglik, action="optimize",
       y=y, lower=lo, upper=hi, control=list(maximize=TRUE))
 pmat <- ans$par[ans$conv, ] # selecting only converged solutions

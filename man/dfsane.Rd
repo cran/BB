@@ -142,7 +142,7 @@ unsuccessful termination of \code{dfsane}. Default is \code{BFGS=FALSE}.}
     F
     }
 
-    p0 <- rnorm(1000)
+    p0 <- rnorm(50)
     dfsane(par=p0, fn=trigexp)  # default is method=2
     dfsane(par=p0, fn=trigexp, method=1)
     dfsane(par=p0, fn=trigexp, method=3)
@@ -158,7 +158,7 @@ unsuccessful termination of \code{dfsane}. Default is \code{BFGS=FALSE}.}
   F
   }
   
-  p0 <- sort(runif(100, 0, 20))
+  p0 <- sort(runif(50, 0, 20))
   dfsane(par=p0, fn=brent, control=list(trace=FALSE))
   dfsane(par=p0, fn=brent, control=list(M=200, trace=FALSE))
 }

@@ -32,11 +32,11 @@ c(ans1$feval, ans2$feval,ans3$feval,ans4$feval)
 
 # switched BFGS=TRUE to BFGS=FALSE below for speed, and 500 to 100
 
-nsim <- 100
+nsim <- 50
 dfsane1.troesch <- dfsane2.troesch <- sane1.troesch <- sane2.troesch <- matrix(NA, nsim, 5)
 for (i in 1:nsim) {
 cat("Simulation" , i, "\n")
-p0 <- sort(runif(500))
+p0 <- sort(runif(50))
 t1 <- system.time(ans <- sane(par=p0, fn=troesch, method=1,
                control=list(BFGS=FALSE, trace=F)))[1]
 if (!is.null(ans))sane1.troesch[i, ] <- c(ans$resid, ans$feval, ans$iter, ans$conv, t1)
@@ -68,7 +68,3 @@ print(z)
 print(z[,1], digits=18)
 
 
-
-#troesch.results <- list(dfsane1=dfsane1.troesch, dfsane2=dfsane2.troesch, dfsane3=dfsane3.troesch, sane=sane.troesch) 
-#dput(troesch.results, file="e:/bb/package/troesch.results")
-# troesch.results <- dget(file="e:/bb/package/troesch.results")

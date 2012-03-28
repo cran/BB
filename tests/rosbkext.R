@@ -18,7 +18,6 @@ sum (100*(p[1:(n-1)]^2 - p[2:n])^2 + (p[1:(n-1)] - 1)^2)
 
 p0 <- rnorm(50,sd=2)
 system.time(ans.spg <- spg(par=p0, fn=rosbkext.f, control=list(maxit=2500)))[1]
-system.time(ans.opt <- optim(par=p0, fn=rosbkext.f, method="L-BFGS-B"))[1]
  
 z <- sum(ans.spg$par)
 good   <-   49.99437222882855
@@ -30,12 +29,3 @@ good   <-   49.99437222882855
 print(z, digits=16)
 if(any(abs(good - z) > 1e-1)) stop("BB test rosbkext.f FAILED")
 
-z <- sum(ans.opt$par)
-good   <-   18.5
-#on Windows 18.37940307100988 
-#on Windows 18.55241627926175 on Uwe's win-builder
-#on Linux64 18.30019275224842
-#on Linux32 18.4002343315311
-#on Linux32 18.71476833228823 as of Ubuntu 9.10 (Dell laptop)
-print(z, digits=16)
-if(any(abs(good - z) > 4e-1)) stop("BB test rosbkext.f FAILED")

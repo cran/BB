@@ -33,7 +33,7 @@ vec <- 1:n
 -vec * (exp(x) - 1) / 10
 }
 
-p0 <- runif(500,min=-1, max=1)
+p0 <- runif(50, min=-1, max=1)
 system.time(ans.spg <- spg(par=p0, fn=sc2.f, control=list(maxit=2500)))[1]
 
 z <- sum(ans.spg$par)
@@ -76,23 +76,3 @@ print(z, digits=16)
 # test tol relaxed from 1e-4 to 1e-3 when ftol arg added to spg  2011.2-1
 if(any(abs(good - z) >  0.001)) stop("BB test neg.sc2 b FAILED")
 
-system.time(ans.opt <- optim(par=p0, fn=sc2.f, method="L-BFGS-B"))[1]
-
-z <- sum(ans.opt$par)
-good   <-   0.02209066162550582
-#on Windows 0.02209186415471651
-#on Linux64 0.02209066162550582
-#on Linux32 0.0220908989551237
-print(z, digits=16)
-if(any(abs(good - z) > 1e-4)) stop("BB test sc2 c FAILED")
-
-system.time(ans.opt <- optim(par=p0, fn=sc2.f, gr=sc2.g, method="L-BFGS-B"))[1]
-
-z <- sum(ans.opt$par)
-# 0.02200130758634488 on Windows
-# 0.02200130759852783 on Linux64
-# 0.02200130759779934 on Linux32
-
-good <- 0.02200130759852783
-print(z, digits=16)
-if(any(abs(good - z) > 1e-9)) stop("BB test sc2 d FAILED")

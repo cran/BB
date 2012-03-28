@@ -24,22 +24,11 @@ f[j] <- 10 * (cos(x[jm2]) - x[j])
 sum(f*f)
 }
 
-p0 <- rnorm(303, sd=1)
+p0 <- rnorm(99, sd=1)
 system.time(ans.spg <- spg(par=p0, fn=valley.f))[1]
-system.time(ans.opt <- optim(par=p0, fn=valley.f, method="L-BFGS-B"))[1]
  
 z <- sum(ans.spg$par)
-good   <-   241.2804350735936
-#on Windows 241.2804198777626
-#on Linux64 241.2805099444485
-#on Linux32 241.2804350735936
-print(z, digits=16)
-#if(any(abs(good - z) > 1e-3)) stop("BB test valley.f b FAILED")
- 
-z <- sum(ans.opt$par)
-good   <-   241.285235502392
-#on Windows 241.2835414743444
-#on Linux64 241.285235502392
-#on Linux32 241.282812432555
+good   <-   78.8339837886
 print(z, digits=16)
 if(any(abs(good - z) > 1e-2)) stop("BB test valley.f b FAILED")
+ 
