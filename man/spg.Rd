@@ -148,6 +148,9 @@ the progress of optimization is printed.  Default is \code{trace = TRUE}.}
 \item{eps}{A small positive increment used in the finite-difference 
   approximation of gradient.  Default is 1.e-07.}
 
+\item{checkGrad}{A logical variable (TRUE/FALSE) indicating whether to check the analytical gradient, if specified by the user.  
+It is recommended that this be set to FALSE for high-dimensional problems, after making sure that the gradient is correctly specified.}
+
 \item{checkGrad.tol}{A small positive value use to compare the maximum relative
   difference between a user supplied gradient gr and the numerical approximation
   calculated by grad from package \pkg{numDeriv}. The default is 1.e-06.

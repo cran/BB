@@ -75,7 +75,10 @@ sequential strategy:
 
 The argument \code{control} defaults to a list with values 
  \code{maxit = 1500, M = c(50, 10), ftol=1.e-10, gtol = 1e-05, maxfeval = 10000, 
-  maximize = FALSE, trace = FALSE, triter = 10, eps = 1e-07}. 
+  maximize = FALSE, trace = FALSE, triter = 10, eps = 1e-07, checkGrad=TRUE}.  
+  It is recommended that \code{checkGrad} be set to FALSE for high-dimensional 
+  problems, after making sure that the gradient is correctly specified.
+
 If \code{control} is specified as an argument, only values which are different
 need to be given in the list. See \code{spg} for more details.
 }
@@ -108,7 +111,10 @@ BBoptim(par=p0, fn=rosbkext, lower=0) # compare the improvement in convergence w
 BBoptim(par=p0, fn=rosbkext, method=3, control=list(M=10, trace=TRUE))  # identical to spg() with defaults
 }
 \references{ 
-   R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, \url{http://www.jstatsoft.org/v32/i04/}
+   R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large 
+   System of Nonlinear Equations and for Optimizing a High-Dimensional 
+   Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, 
+   \url{http://www.jstatsoft.org/v32/i04/}
 }
 
 \keyword{multivariate}

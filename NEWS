@@ -1,3 +1,11 @@
+Changes in BB version 2012.8-1
+
+   o	Added a control argument named `checkGrad' to the functions `spg' 
+   	and `BBoptim'.  This defaults to TRUE, which means that the 
+	user-specified gradient will be checked against numerical gradient.
+	It should be set to FALSE for high-dimensional problems, after 
+	ensuring that the analytic gradient is correctly specified.
+
 Changes in BB version 2012.3-1
 
    o	fixed use of break in a non-loop context in sane and dfsane.

@@ -30,7 +30,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   # control defaults
   # Added `ftol' to the control list:  RV change on 02-06-2011 
   ctrl <- list(M=10, maxit=1500, ftol=1.e-10, gtol=1.e-05, maxfeval=10000, maximize=FALSE, 
-        trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad.tol=1.e-06) 
+        trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad=TRUE, checkGrad.tol=1.e-06) 
   namc <- names(control)
   if (! all(namc %in% names(ctrl)) )
      stop("unknown names in control: ", namc[!(namc %in% names(ctrl))])     
@@ -45,6 +45,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   trace    <- ctrl$trace
   triter   <- ctrl$triter
   eps      <- ctrl$eps
+  checkGrad <- ctrl$checkGrad
   checkGrad.tol <- ctrl$checkGrad.tol  
     
   grNULL <- is.null(gr)  
@@ -84,7 +85,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
     return(list(p=pnew, f=fnew, feval=feval, lsflag=0))
     }
   #############################################
-  if (!grNULL) {
+  if (!grNULL & checkGrad) {
     require("numDeriv")
     grad.num <- grad(x=par, func=fn, ...) 
     grad.analytic <- gr(par, ...)
