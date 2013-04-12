@@ -2,6 +2,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
            lower=-Inf, upper=Inf, projectArgs=NULL, 
 	   control=list(), quiet=FALSE,  ... ) {
 
+
   prj <- TRUE
   if (is.null(project)){
      if (is.null(projectArgs)){
@@ -30,7 +31,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   # control defaults
   # Added `ftol' to the control list:  RV change on 02-06-2011 
   ctrl <- list(M=10, maxit=1500, ftol=1.e-10, gtol=1.e-05, maxfeval=10000, maximize=FALSE, 
-        trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad=TRUE, checkGrad.tol=1.e-06) 
+        trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad=NULL, checkGrad.tol=1.e-06) 
   namc <- names(control)
   if (! all(namc %in% names(ctrl)) )
      stop("unknown names in control: ", namc[!(namc %in% names(ctrl))])     
@@ -50,6 +51,44 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
     
   grNULL <- is.null(gr)  
   fargs <- list(...)
+
+
+  func <- if (maximize) function(par, ...) c(-fn(par, ...))
+                   else function(par, ...) c( fn(par, ...))
+  
+  # first evaluate the function to be sure the initial guess works
+  # and use the timing to decide if the analytic gradient should be checked.
+  # c() in next is for case of a 1x1 matrix value
+
+  f.time <- system.time(f <- try(func(par, ...),silent=TRUE))
+  feval <- 1
+  
+  # set the default for checking the gradient based on how long
+  # a function evaluation takes, and the number of parameters.
+  # 6* is a very crude approximation of how many funtion evaluations are
+  # necessary for each dimension.
+  if (is.null(checkGrad))  
+     if  (((f.time[1]+f.time[2]) * 6*length(par)) < 10) {
+        checkGrad <-TRUE 
+        }
+     else {
+        checkGrad <- FALSE
+        if(!grNULL) warning(
+	 "Default checking of gradient turned off because of time require.",
+	 "See the help for spg to enable this.")
+	} 
+
+  if (class(f)=="try-error" )
+        stop("Failure in initial function evaluation!", f)
+  else if ( !is.numeric(f) || 1 != length(f) )
+        stop("function must return a scalar numeric value!")
+  else if (is.nan(f) | is.infinite(f) | is.na(f) )
+        stop("Failure in initial function evaluation!")
+    
+  f0 <- fbest <- f
+ 
+
+  
   ################ local function
   nmls <- function(p, f, d, gtd, lastfv, feval, func, maxfeval, fargs ){
     # Non-monotone line search of Grippo with safe-guarded quadratic interpolation
@@ -118,15 +157,11 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   #  Initialization
   lmin <- 1.e-30
   lmax <- 1.e30
-  iter <-  feval <-  geval <- 0
+  iter <-  geval <- 0
   lastfv <- rep(-1.e99, M)
   fbest <- NA
   fchg <- Inf          # RV change on 02-06-2011
  
-  # c() in next is for case of a 1x1 matrix value
-  func <- if (maximize) function(par, ...) c(-fn(par, ...))
-                   else function(par, ...) c( fn(par, ...))
-
   # this switch is not needed for the numerical grad because the
   #  sign of func is switched.
   grad <- if (maximize & !grNULL) function(par, ...) -gr(par, ...)
@@ -142,19 +177,6 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
      }
   if (any(is.nan(par), is.na(par)) ) stop("Failure in initial guess!")
   pbest <- par
- 
-  f <- try(func(par, ...),silent=TRUE)
-
-  feval <- feval + 1
-
-  if (class(f)=="try-error" )
-        stop("Failure in initial function evaluation!", f)
-  else if ( !is.numeric(f) || 1 != length(f) )
-        stop("function must return a scalar numeric value!")
-  else if (is.nan(f) | is.infinite(f) | is.na(f) )
-        stop("Failure in initial function evaluation!")
-    
-  f0 <- fbest <- f
  
   g <- try(grad(par, ...),silent=TRUE)
   

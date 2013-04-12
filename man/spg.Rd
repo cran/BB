@@ -86,7 +86,8 @@
 \details{
 R adaptation, with significant modifications, by Ravi Varadhan, Johns
 Hopkins University (March 25, 2008), from the original FORTRAN code of
-Birgin, Martinez, and Raydan (2001). 
+Birgin, Martinez, and Raydan (2001). The original is available at the 
+TANGO project \url{http://www.ime.usp.br/~egbirgin/tango/downloads.php}
 
 A major modification in our R adaptation of the original FORTRAN code is the 
 availability of 3 different options for Barzilai-Borwein (BB) 
@@ -148,8 +149,15 @@ the progress of optimization is printed.  Default is \code{trace = TRUE}.}
 \item{eps}{A small positive increment used in the finite-difference 
   approximation of gradient.  Default is 1.e-07.}
 
-\item{checkGrad}{A logical variable (TRUE/FALSE) indicating whether to check the analytical gradient, if specified by the user.  
-It is recommended that this be set to FALSE for high-dimensional problems, after making sure that the gradient is correctly specified.}
+\item{checkGrad}{\code{NULL} or a  logical variable \code{TRUE/FALSE} 
+indicating whether to 
+check the provided analytical gradient against a numerical approximation. 
+With the default \code{NULL} the gradient is checked if it is estimated to take
+less than about ten seconds. A warning will be issued in the case it takes 
+longer. The default can be overridden by specifying \code{TRUE} or \code{FALSE}.
+It is recommended that this be set to FALSE for high-dimensional problems, 
+after making sure that the gradient is correctly specified, possibly by running
+once with \code{TRUE} specified.}
 
 \item{checkGrad.tol}{A small positive value use to compare the maximum relative
   difference between a user supplied gradient gr and the numerical approximation

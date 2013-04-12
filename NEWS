@@ -1,3 +1,16 @@
+Changes in BB version 2013.4-1
+
+   o	Further adjustment to DESCRIPTION and moved LICENSE to LICENSE.note
+   	file, after discussions about appropriate place for statements,
+	and added additional clarification of various roles.
+
+   o	Changed checkGrad default in spg skip the check if, based on the first 
+	function evaluation, it is estimated to take more than ten seconds.
+
+Changes in BB version 2012.12-1
+
+   o	Added  ByteCompile: yes in DESCRIPTION file.
+
 Changes in BB version 2012.8-1
 
    o	Added a control argument named `checkGrad' to the functions `spg' 
