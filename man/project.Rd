@@ -8,28 +8,30 @@
 \arguments{
     \item{par}{A real vector argument (as for \code{fn}), indicating the
       parameter values to which the constraint should be applied.}
-    \item{A}{A matrix MORE HERE.} 
-    \item{b}{A vector MORE HERE.} 
-    \item{meq}{MORE HERE.} 
+    \item{A}{A matrix. See details.} 
+    \item{b}{A vector. See details.} 
+    \item{meq}{See details.} 
 }
 \value{A vector of the constrained parameter values.}
 
 \details{
-These functions are \code{project} that can be used by \code{spg}. They  takes a point in \eqn{R^n}{R^n} and projects it onto a region that defines the constraints of the problem. They that takes a real vector as argument and 
-returns a real vector of the same length.
+The function \code{projectLinear} can be used by \code{spg} to 
+define the constraints of the problem. It projects a point 
+in \eqn{R^n}{R^n} onto a region that defines the constraints. 
+It takes a real vector \code{par} as argument and returns a real vector 
+of the same length.
 
-These functions implement different constraints to be imposed on the 
-parameters in \code{spg}. The function \code{projectBox} allows box constraints.
-This is the \code{spg} default projection, but the \code{spg} default lower and upper are \code{-Inf} and \code{Inf}, so no constraint is imposed by default.
-
-The function \code{projectLinear} incorporates linear equalities and inequalities in nonlinear optimization using \code{spg}.
-The inequalities are defined such that:  \code{Amat \%*\% x - b > 0 }.
-MORE HERE ?
-
-The user can define other projection functions, which allows for arbitrary nonlinear projections that the user may define. The first argument should be 
-\code{par} and any other arguments should be passed to \code{spg} using its
-argument \code{projectArgs}.  
+The function \code{projectLinear} incorporates linear equalities and 
+inequalities in nonlinear optimization using a projection method, 
+where an infeasible point is projected onto the feasible region using 
+a quadratic programming solver.  
+The inequalities are defined such that:  \code{A \%*\% x - b > 0 }.
+The first `meq' rows of A and the first `meq' elements of b correspond 
+to equality constraints.
 }
+
+\note{We are grateful to Berwin Turlach for creating a special version of solve.QP function that is specifically tailored to solving the projection problem.}
+
 \seealso{
   \code{\link{spg}}
 }  
@@ -106,7 +108,7 @@ proj <- function(x){
 x / sum(x) 
 } 
 
-p0 <- c(2,1)  
+p0 <- c(0.93, 0.94)  
 
 # Note, the starting value is infeasible so the next 
 #   result is "Maximum function evals exceeded"

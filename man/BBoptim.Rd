@@ -108,8 +108,12 @@ sum(100 * (x[j] - x[jm1]^2)^2 + (1 - x[jm1])^2)
 p0 <- rnorm(50)
 spg(par=p0, fn=rosbkext)
 BBoptim(par=p0, fn=rosbkext)
-BBoptim(par=p0, fn=rosbkext, lower=0) # compare the improvement in convergence when bounds are specified
-BBoptim(par=p0, fn=rosbkext, method=3, control=list(M=10, trace=TRUE))  # identical to spg() with defaults
+
+# compare the improvement in convergence when bounds are specified
+BBoptim(par=p0, fn=rosbkext, lower=0) 
+
+# identical to spg() with defaults
+BBoptim(par=p0, fn=rosbkext, method=3, control=list(M=10, trace=TRUE))  
 }
 \references{ 
    R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large 

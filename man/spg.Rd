@@ -104,15 +104,24 @@ convergence to a better optimum in our experiments.
 We recommend that the user try the other steplength schemes if the default 
 method does not perform well in their problem.  
 
+The \code{project} argument provides a way to implement
+different constraints to be imposed on the parameters in \code{spg}. 
 Argument \code{project} defaults to \code{"projectBox"}, which gives projection using constraints defined by vectors \code{lower} and \code{upper} defined in the \code{projectArgs} list. The arguments \code{lower} and \code{upper} provide
 a simplified way to specify these, but \code{projectArgs} will take precedence
 if it is specified.
 The default  \code{projectArgs=NULL} is expanded (if \code{project == "projectBox"}) to use \code{lower} and \code{upper}. The default \code{lower} is \code{-Inf} and \code{upper} is \code{+Inf}, which implies no constraint.
 The user can specify \code{lower} and \code{upper} to enforce box constraints. Scalar values for \code{lower} and \code{upper} are expanded by \code{spg} to apply to all parameters.
  
+In all cases other than \code{project == "projectBox"} with \code{projectArgs=NULL} the argument \code{projectArgs} is passed to \code{project} without changes.
+
 The user can also provide a \code{project} function to enforce more 
 complicated linear or nonlinear and equality or inequality constraints. 
-In all cases other than \code{project == "projectBox"} with \code{projectArgs=NULL} the argument \code{projectArgs} is passed to \code{project} without changes.
+This allows for arbitrary nonlinear projections that the user may define. The first argument should be \code{par} and any other 
+arguments should be passed using its argument \code{projectArgs}.  
+
+The function \code{\link{projectLinear}} incorporates linear equalities and 
+inequalities. This function also provides an example of how other projections
+might be implemented.
  
 Argument \code{control} is a list specifing any changes to default values of 
 algorithm control parameters.  Note that the names of these must be 

@@ -58,7 +58,7 @@ If \code{control} is specified as an argument, only values which are different
 need to be given in the list. See \code{dfsane} for more details.
 }
 \seealso{
-  \code{\link{BBsolve}},
+  \code{\link{BBoptim}},
   \code{\link{dfsane}},
   \code{\link{sane}}
   \code{\link{multiStart}}
@@ -84,9 +84,16 @@ f
 p0 <- rnorm(50)
 BBsolve(par=p0, fn=broydt)  # this works 
 dfsane(par=p0, fn=broydt) # but this is highly unliikely to work.
-BBsolve(par=p0, fn=broydt, control=list(M=50, NM=FALSE))  # this implements the 3 BB steplengths with M = 50, and without Nelder-Mead initialization
-BBsolve(par=p0, fn=broydt, method=1, control=list(M=c(50, 10)))  # this implements BB steplength 1 with M = 50 and 10, and both with and without Nelder-Mead initialization
-BBsolve(par=p0, fn=broydt, method=2, control=list(M=10, NM=FALSE)) # identical to dfsane() with defaults
+
+# this implements the 3 BB steplengths with M = 50, and without Nelder-Mead initialization
+BBsolve(par=p0, fn=broydt, control=list(M=50, NM=FALSE))
+
+# this implements BB steplength 1 with M = 50 and 10, and both with and 
+#   without Nelder-Mead initialization  
+BBsolve(par=p0, fn=broydt, method=1, control=list(M=c(50, 10))) 
+
+# identical to dfsane() with defaults
+BBsolve(par=p0, fn=broydt, method=2, control=list(M=10, NM=FALSE)) 
 }
 \references{ 
    R Varadhan and PD Gilbert (2009),  BB: An R Package for Solving a Large System of Nonlinear Equations and for Optimizing a High-Dimensional Nonlinear Objective Function, \emph{J. Statistical Software}, 32:4, \url{http://www.jstatsoft.org/v32/i04/}

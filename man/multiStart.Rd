@@ -5,7 +5,8 @@
 points to obtain multiple solutions and to test sensitivity to starting values.}
 \usage{
   multiStart(par, fn, gr=NULL, action = c("solve", "optimize"), 
-	method=c(2,3,1), project=NULL, projectArgs=NULL, control=list(), quiet=FALSE, details=FALSE, ...) 
+	method=c(2,3,1), project=NULL, projectArgs=NULL, control=list(), 
+	quiet=FALSE, details=FALSE, ...) 
   }
 \arguments{
     \item{par}{A real matrix, each row of which is an argument to \code{fn},

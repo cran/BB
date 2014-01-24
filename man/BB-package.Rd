@@ -9,11 +9,6 @@
   and optimization of large-scale nonlinear systems.  }
 
 \details{
-\tabular{ll}{
-Package: \tab BB\cr
-Depends: \tab R (>= 2.6.1)\cr
-License: \tab GPL Version 3.\cr
-}
 A tutorial style introduction to this package is available in a vignette, which
 can be viewed with vignette("BB").
 
@@ -39,8 +34,6 @@ spg	function for spectral projected gradient method for large-scale
         optimization with simple constraints
 }
 
-Maintainer:Ravi Varadhan <rvaradhan@jhmi.edu> and 
-   Paul Gilbert <pgilbert@bank-banque-canada.ca> 
 }
 \author{Ravi Varadhan}
 \references{

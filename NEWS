@@ -1,3 +1,17 @@
+Changes in BB version 2014.1-1
+
+   o	Added a special version of solve.QP and removed quadprog from Imports.
+
+Changes in BB version 2013.11-1
+
+   o	Changed quadprog from Depends to Imports.
+
+Changes in BB version 2013.5-1
+
+   o	Removed contact email addresses from BB-package.Rd (which were 
+   	outdated) and other information in that file that duplicated
+	the DESCRIPTION file.
+
 Changes in BB version 2013.4-1
 
    o	Further adjustment to DESCRIPTION and moved LICENSE to LICENSE.note

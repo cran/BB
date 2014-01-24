@@ -152,9 +152,10 @@ unsuccessful termination of \code{dfsane}. Default is \code{BFGS=FALSE}.}
   n <- length(x)
   tnm1 <- 2:(n-1)
   F <- rep(NA, n)
-    F[1] <- 3 * x[1] * (x[2] - 2*x[1]) + (x[2]^2)/4 
-    F[tnm1] <-  3 * x[tnm1] * (x[tnm1+1] - 2 * x[tnm1] + x[tnm1-1]) + ((x[tnm1+1] - x[tnm1-1])^2) / 4   
-    F[n] <- 3 * x[n] * (20 - 2 * x[n] + x[n-1]) +  ((20 - x[n-1])^2) / 4
+  F[1] <- 3 * x[1] * (x[2] - 2*x[1]) + (x[2]^2)/4 
+  F[tnm1] <-  3 * x[tnm1] * (x[tnm1+1] - 2 * x[tnm1] + x[tnm1-1]) + 
+              ((x[tnm1+1] - x[tnm1-1])^2) / 4   
+  F[n] <- 3 * x[n] * (20 - 2 * x[n] + x[n-1]) +  ((20 - x[n-1])^2) / 4
   F
   }
   
