@@ -3,9 +3,9 @@
 \title{Large-Scale Optimization}
 \description{Spectral projected gradient method for large-scale optimization with simple constraints.}
 \usage{
-     spg(par, fn, gr=NULL, method=3, project=NULL, 
-           lower=-Inf, upper=Inf, projectArgs=NULL, 
-	   control=list(), quiet=FALSE, ...)
+     spg(par, fn, gr=NULL, method=3, lower=-Inf, upper=Inf, 
+           project=NULL, projectArgs=NULL, 
+	   control=list(), quiet=FALSE, alertConvergence=TRUE, ...)
  }
 \arguments{
     \item{par}{A real vector argument to \code{fn}, indicating the initial guess for the optimization of nonlinear 
@@ -26,19 +26,19 @@
     \item{method}{An integer (1, 2, or 3) specifying which Barzilai-Borwein 
       steplength to use.  The default is 3.  See *Details*.} 
 
-    \item{project}{A character string indicating the name of the projection
-      function that takes a point in \eqn{R^n}{R^n} and 
+    \item{upper}{An upper bound for box constraints.}
+
+    \item{lower}{An lower bound for box constraints.}
+
+    \item{project}{A projection
+      function or character string indicating its name. The projection
+      function takes a point in \eqn{R^n}{R^n} and 
       projects it onto a region that defines the constraints of the problem.  
       This is a vector-function that takes a real vector as argument and 
       returns a real vector of the same length. See *Details*. 
-      It defaults to "projectBox" which implies a box constraint defined by 
-      \code{lower} and \code{upper}.} 
-
-    \item{upper}{An upper bound for box constraints. This is just a convenient
-       way to specify this list element of \code{projectArgs}.}
-
-    \item{lower}{An lower bound for box constraints. This is just a convenient
-       way to specify this list element of \code{projectArgs}.}
+      If a projection function is not supplied, arguments \code{lower} and
+      \code{upper} will cause the use of an internally defined function that
+      enforces the implied box constraints.} 
 
     \item{projectArgs}{A list with arguments to the \code{project}  
       function. See *Details*. }
@@ -51,6 +51,10 @@
     Note that the \code{control} variable \code{trace} and \code{quiet} 
     affect different printing, so if \code{trace} is not set to \code{FALSE} 
     there will be considerable printed output.}
+ 
+    \item{alertConvergence}{A logical variable. With the default \code{TRUE}
+    a warning is issued if convergence is not obtained. When set to \code{FALSE}
+    the warning is suppressed.}
 
     \item{...}{Additional arguments passed to \code{fn} and \code{gr}.
       (Both must accept any specified arguments, either 
@@ -67,7 +71,7 @@
 
 \item{fn.reduction}{Reduction in the value of the function from its initial value. This is negative in maximization.}
 
-\item{iter}{Number of iterations taken by the algorithm.}
+\item{iter}{Number of iterations taken by the algorithm. The gradient is evaluated once each iteration, so the number of gradient evaluations will also be equal to \code{iter}, plus any evaluations necessary for \code{checkGrad}.}
 
 \item{feval}{Number of times the objective \code{fn} was evaluated.}
 
@@ -104,20 +108,16 @@ convergence to a better optimum in our experiments.
 We recommend that the user try the other steplength schemes if the default 
 method does not perform well in their problem.  
 
-The \code{project} argument provides a way to implement
-different constraints to be imposed on the parameters in \code{spg}. 
-Argument \code{project} defaults to \code{"projectBox"}, which gives projection using constraints defined by vectors \code{lower} and \code{upper} defined in the \code{projectArgs} list. The arguments \code{lower} and \code{upper} provide
-a simplified way to specify these, but \code{projectArgs} will take precedence
-if it is specified.
-The default  \code{projectArgs=NULL} is expanded (if \code{project == "projectBox"}) to use \code{lower} and \code{upper}. The default \code{lower} is \code{-Inf} and \code{upper} is \code{+Inf}, which implies no constraint.
-The user can specify \code{lower} and \code{upper} to enforce box constraints. Scalar values for \code{lower} and \code{upper} are expanded by \code{spg} to apply to all parameters.
- 
-In all cases other than \code{project == "projectBox"} with \code{projectArgs=NULL} the argument \code{projectArgs} is passed to \code{project} without changes.
+Box constraints can be imposed by vectors \code{lower} and \code{upper}. 
+Scalar values for \code{lower} and \code{upper} are expanded to apply to 
+all parameters. The default \code{lower} is \code{-Inf} and \code{upper} 
+is \code{+Inf}, which imply no constraints.
 
-The user can also provide a \code{project} function to enforce more 
-complicated linear or nonlinear and equality or inequality constraints. 
-This allows for arbitrary nonlinear projections that the user may define. The first argument should be \code{par} and any other 
-arguments should be passed using its argument \code{projectArgs}.  
+The \code{project} argument provides a way to implement more general constraints
+to be imposed on the parameters in \code{spg}. \code{projectArgs} is passed
+to the \code{project} function if one is specified.  The first argument of any \code{project} function should be \code{par} and any other arguments should be passed using its argument \code{projectArgs}.    
+To avoid confusion it is suggested that user defined \code{project}
+functions should not use arguments  \code{lower} and \code{upper}.
 
 The function \code{\link{projectLinear}} incorporates linear equalities and 
 inequalities. This function also provides an example of how other projections

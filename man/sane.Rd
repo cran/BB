@@ -4,7 +4,8 @@
 \description{Non-Monotone spectral approach for Solving Large-Scale 
  Nonlinear Systems of Equations}
 \usage{
-  sane(par, fn, method=2, control=list(), quiet=FALSE, ...) 
+  sane(par, fn, method=2, control=list(),
+       quiet=FALSE, alertConvergence=TRUE, ...) 
  }
 \arguments{
     \item{fn}{a function that takes a real vector as argument and returns 
@@ -25,6 +26,10 @@
     affect different printing, so if \code{trace} is not set to \code{FALSE} 
     there will be considerable printed output.}
  
+    \item{alertConvergence}{A logical variable. With the default \code{TRUE}
+    a warning is issued if convergence is not obtained. When set to \code{FALSE}
+    the warning is suppressed.}
+
     \item{...}{Additional arguments passed to \code{fn}.}
 }
 \value{A list with the following components:

@@ -75,7 +75,7 @@ spg(par=p0, fn=fn, gr=gr, project="projectLinear",
    projectArgs=list(A=Amat, b=b, meq=meq))
 
 # Note that the above is the same as the following:
-spg(par=p0, fn=fn, gr=gr, projectArgs=list(lower=0, upper=0.5))
+spg(par=p0, fn=fn, gr=gr, lower=0, upper=0.5)
 
 
 # An example showing how to impose other constraints in spg()
@@ -115,9 +115,17 @@ p0 <- c(0.93, 0.94)
 
 spg(par=p0, fn=fr, project="proj") 
 
-# Correct approach to doing the projection using the `projLinear' function
+# Correct approach to doing the projection using the `projectLinear' function
 
 spg(par=p0, fn=fr, project="projectLinear", projectArgs=list(A=matrix(1, 1, 2), b=1, meq=1)) 
+
+# Impose additional box constraint on first parameter
+
+p0 <- c(0.4, 0.94)    # need feasible starting point
+
+spg(par=p0, fn=fr,  lower=c(-0.5, -Inf), upper=c(0.5, Inf),
+  project="projectLinear", projectArgs=list(A=matrix(1, 1, 2), b=1, meq=1)) 
+
 
 }
 

@@ -1,4 +1,5 @@
-sane <- function (par, fn, method = 2, control = list(), quiet=FALSE, ...)  {
+sane <- function (par, fn, method = 2, control = list(), 
+                  quiet=FALSE, alertConvergence=TRUE, ...)  {
     ctrl <- list(maxit = 1500, M = 10, tol = 1e-07, trace = TRUE, 
         triter = 10, quiet=FALSE, noimp = 100, NM=FALSE, BFGS=FALSE)
     namc <- names(control)
@@ -26,7 +27,7 @@ sane <- function (par, fn, method = 2, control = list(), quiet=FALSE, ...)  {
         gpd <- -2 * abs(dg)
         while (cbl < maxbl) {
             xnew <- x + lambda * sgn * F
-            Fnew <- try(do.call("fn", append(list(xnew), fargs)))
+            Fnew <- try(do.call(fn, append(list(xnew), fargs)))
             fcnt = fcnt + 1
             if (class(Fnew) == "try-error" || any(is.nan(Fnew))) 
                 return(list(xnew = NA, Fnew = NA, fcnt = fcnt, 
@@ -215,6 +216,9 @@ sane <- function (par, fn, method = 2, control = list(), quiet=FALSE, ...)  {
         	conv <- list(type = 0, message = "Successful convergence")
 	}
 	
+    if(alertConvergence && ( 0 != conv$type))
+          warning("Unsuccessful convergence.")
+
     return(list(par = pbest, residual = normF.best/sqrt(length(par)), 
         fn.reduction = F0 - normF.best, feval = fcnt, iter = iter, 
         convergence = conv$type, message = conv$message))

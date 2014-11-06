@@ -4,8 +4,8 @@
 \description{A strategy using different Barzilai-Borwein steplengths to 
   optimize a nonlinear objective function subject to box constraints.}
 \usage{
-  BBoptim(par, fn, gr=NULL, method=c(2,3,1), project=NULL, 
-  	lower=-Inf, upper=Inf, projectArgs=NULL,
+  BBoptim(par, fn, gr=NULL, method=c(2,3,1), lower=-Inf, upper=Inf, 
+  	project=NULL, projectArgs=NULL,
 	control=list(), quiet=FALSE, ...) 
   }
 \arguments{
@@ -27,19 +27,14 @@
       steplengths should be used in a consecutive manner.  The methods will 
       be used in the order specified.}
 
+    \item{upper}{An upper bound for box constraints. See \code{spg}}
+    \item{lower}{An lower bound for box constraints. See \code{spg}}
+
     \item{project}{The projection function that takes a point in $R^n$ and 
       projects it onto a region that defines the constraints of the problem.
       This is a vector-function that takes a real vector as argument and 
-      returns a real vector of the same length.  It defaults to \code{NULL}.
-      See *Details*.} 
-
-    \item{lower}{A vector that defines lower bounds on \code{par}. This is a 
-      simple method to specify this element of \code{projectArgs}. 
-      Defaults to \code{-Inf}. See \code{spg()} for more details.}
-
-    \item{upper}{A vector that defines upper bounds on \code{par}. This is a 
-      simple method to specify this element of \code{projectArgs}.  
-      Defaults to \code{Inf}. See \code{spg()} for more details.} 
+      returns a real vector of the same length. 
+      See \code{spg} for more details.} 
 
     \item{projectArgs}{list of arguments to \code{project}. See \code{spg()} 
        for more details.} 

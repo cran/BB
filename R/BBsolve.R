@@ -27,7 +27,7 @@ BBsolve <- function(par, fn, method=c(2,3,1), control=list(), quiet=FALSE, ...)
                          control=list(M=as.numeric(cpars[2]), NM=cpars[3], 
 			   maxit=maxit, tol=tol, trace=trace, triter=triter, 
 			   noimp=noimp),
-			 quiet=quiet, ...), silent=TRUE)
+			 quiet=quiet, alertConvergence=FALSE, ...), silent=TRUE)
       if (!inherits(temp, "try-error")) {
          feval <- feval + temp$feval
          iter <- iter + temp$iter

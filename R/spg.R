@@ -1,31 +1,68 @@
-spg <- function(par, fn, gr=NULL, method=3, project=NULL, 
-           lower=-Inf, upper=Inf, projectArgs=NULL, 
-	   control=list(), quiet=FALSE,  ... ) {
+spg <- function(par, fn, gr=NULL, method=3, lower=-Inf, upper=Inf, 
+	   project=NULL, projectArgs=NULL, 
+	   control=list(), quiet=FALSE, alertConvergence=TRUE,  ... ) {
 
 
-  prj <- TRUE
-  if (is.null(project)){
-     if (is.null(projectArgs)){
-         projectArgs <- list(lower=lower, upper=upper)
-         #  expand upper and lower for all par
-         if (length(projectArgs$lower)==1)
-             projectArgs$lower <- rep(projectArgs$lower, length(par))
-         if (length(projectArgs$upper)==1)
-             projectArgs$upper <- rep(projectArgs$upper, length(par))
+  box <- if (any(is.finite(upper)))   TRUE
+    else if (any(is.finite(lower)))   TRUE
+    else                              FALSE  
+
+
+  prj <- if (box)                     TRUE
+    else if (!is.null(project))       TRUE
+    else                              FALSE  
+
+  if (is.character(project)) project <- get(project, mode="function")
+ 
+  if (box){
+    if (is.null(project) ){
+         # upper and lower for default. Expand if scalar
+         if(is.null(projectArgs)) projectArgs <- list()
+	 
+	 if( (!is.null(projectArgs$lower)) | (!is.null(projectArgs$upper))) 
+	    warning("Using lower and upper spg arguments, ", 
+	            "not using those specified in projectArgs.")
+
+         projectArgs$lower <- 
+	     if (length(lower)==1) rep(lower, length(par)) else lower
+         projectArgs$upper <- 
+	     if (length(upper)==1) rep(upper, length(par)) else upper
+         
+         # default previously called projectBox
+	 project <-  function(par, lower, upper) {
+             # Projecting to ensure that box-constraints are satisfied
+             par[par < lower] <- lower[par < lower]
+             par[par > upper] <- upper[par > upper]
+             return(par)
+             }
          }
-     if (any(is.finite(c(projectArgs$upper, projectArgs$lower)))){
-         project <- "projectBox"
-         # projectBox for default 
-         # This provides box constraints defined by upper and lower
-         projectBox <- function(par, lower, upper) {
-           # Projecting to ensure that box-constraints are satisfied
-           par[par < lower] <- lower[par < lower]
-           par[par > upper] <- upper[par > upper]
-           return(par)
-           }
-     
-         } else prj <- FALSE    
-     }
+
+    if (identical(project, projectLinear)){
+	 
+       if( (!is.null(projectArgs$lower)) | (!is.null(projectArgs$upper))) 
+	    warning("Using lower and upper spg arguments, ", 
+	            "not using those specified in projectArgs.")
+
+       if(is.null(projectArgs$A)) stop(
+	  "projectLinear requires the A matrix to be specified in projectArgs.")
+
+       if(is.null(projectArgs$b)) stop(
+	  "projectLinear requires the b vector to be specified in projectArgs.")
+
+        # upper and lower. Expand if scalar
+       if (length(lower)==1) lower <- rep(lower, length(par))
+       if (any(zi <- is.finite(lower))){
+	  projectArgs$A <- rbind(projectArgs$A, diag(length(par))[zi,])
+	  projectArgs$b <-     c(projectArgs$b, lower[zi])
+	  }
+ 
+       if (length(upper)==1) upper <- rep(upper, length(par))
+       if (any(zi <- is.finite(upper))){
+	  projectArgs$A <- rbind(projectArgs$A, diag(-1, length(par))[zi,])
+	  projectArgs$b <-     c(projectArgs$b, -upper[zi])
+	  }
+       }
+  }
 
 
   # control defaults
@@ -96,7 +133,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
     fmax <- max(lastfv)
     alpha <- 1
     pnew <- p + alpha*d
-    fnew <- try(do.call("func", append(list(pnew) , fargs )),silent=TRUE)
+    fnew <- try(do.call(func, append(list(pnew) , fargs )),silent=TRUE)
     feval <- feval + 1
  
     if (class(fnew)=="try-error" | is.nan(fnew) )
@@ -111,7 +148,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
     	    }
 
     	pnew <- p + alpha*d
-    	fnew <- try(do.call("func", append(list(pnew), fargs )), silent=TRUE)
+    	fnew <- try(do.call(func, append(list(pnew), fargs )), silent=TRUE)
     	feval <- feval + 1
  
     	if (class(fnew)=="try-error" | is.nan(fnew) )
@@ -125,8 +162,8 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
     }
   #############################################
   if (!grNULL & checkGrad) {
-    require("numDeriv")
-    grad.num <- grad(x=par, func=fn, ...) 
+    requireNamespace("numDeriv", quietly = TRUE)
+    grad.num <- numDeriv::grad(x=par, func=fn, ...) 
     grad.analytic <- gr(par, ...)
     max.diff <- max(abs((grad.analytic - grad.num) / (1 + abs(fn(par, ...)))))
     if(!max.diff < checkGrad.tol) {
@@ -157,7 +194,7 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   #  Initialization
   lmin <- 1.e-30
   lmax <- 1.e30
-  iter <-  geval <- 0
+  iter <-  0
   lastfv <- rep(-1.e99, M)
   fbest <- NA
   fchg <- Inf          # RV change on 02-06-2011
@@ -179,8 +216,6 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
   pbest <- par
  
   g <- try(grad(par, ...),silent=TRUE)
-  
-  geval <- geval + 1
  
   if (class(g)=="try-error" ) 
         stop("Failure in initial gradient evaluation!", g)
@@ -242,7 +277,6 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
       lastfv[(iter %% M) + 1] <- f
  
       gnew <- try(grad(pnew, ...),silent=TRUE)     
-      geval <- geval + 1
  
       if (class(gnew)=="try-error" | any(is.nan(gnew)) ){
         lsflag <- 3
@@ -313,6 +347,9 @@ spg <- function(par, fn, gr=NULL, method=3, project=NULL,
       if (lsflag==4) conv <- list(type=5, message="Failure:  Error in projection")
       }
  
+  if(alertConvergence && ( 0 != conv$type))
+          warning("Unsuccessful convergence.")
+
   return(list(par=par, value=f.rep, gradient =pginfn, 
       fn.reduction=(-1)^maximize * (f0 - f), 
       iter=iter, feval=feval, convergence=conv$type, message=conv$message))

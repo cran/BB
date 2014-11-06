@@ -35,4 +35,3 @@ r3 <- spg(par=p0, fn=fn, gr=gr, project="projectLinear",
 if(any(1e-14 < r3$par - c(0.5, 0.1146409327454269))
   ) stop("projectLinear test 3 failed.")
 
-

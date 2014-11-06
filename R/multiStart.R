@@ -1,5 +1,7 @@
 multiStart <- function(par, fn, gr = NULL, action = c("solve", "optimize"), 
-    method = c(2, 3, 1), project=NULL, projectArgs=NULL, control = list(), quiet=FALSE, details = FALSE, ...) 
+    method = c(2, 3, 1),   lower=-Inf, upper=Inf,
+    project=NULL, projectArgs=NULL, 
+    control = list(), quiet=FALSE, details = FALSE, ...) 
     {
     if (is.null(dim(par))) 
         par <- matrix(par, nrow = 1, ncol = length(par))
@@ -17,8 +19,10 @@ multiStart <- function(par, fn, gr = NULL, action = c("solve", "optimize"),
             ans <- try(BBsolve(par[k, ], fn = fn, method = method, 
                 control = control, quiet=quiet, ...), silent=TRUE)
         if (action == "optimize") 
-            ans <- try(BBoptim(par[k, ], fn = fn, gr = gr, method = method, 
-                control = control, project=project, projectArgs=projectArgs, quiet=quiet, ...), silent=TRUE)
+            ans <- try(BBoptim(par[k, ], fn = fn, gr = gr, 
+	        method = method, lower=lower, upper=upper,
+                project=project, projectArgs=projectArgs,
+		control = control,  quiet=quiet, ...), silent=TRUE)
         if (inherits(ans, "try-error")) next
         cvg[k] <- (ans$convergence == 0)
         values[k] <- if (action == "solve") ans$residual else ans$value

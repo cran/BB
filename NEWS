@@ -1,3 +1,43 @@
+Changes in BB version 2014.10-1
+
+   o	Added optional lower and upper for projectLinear when called from spg.
+
+   o	Changed handling of lower and upper in spg(), BBoptim(), and
+   	multiStart() so they must be specified in those arguments and 
+	not as part of projectArgs.
+
+   o	Changed the order of spg() arguments so that lower and upper are 
+   	more distinct from project, and projectArgs is more closely 
+	associated with it. Corresponding changes also in BBoptim() 
+	and multiStart().
+
+   o	Fixed expansion of scalar upper and lower, which did not happen in 
+   	some cases. 
+
+   o	Allowed for the possibility that argument project in spg() could be a
+   	function as well as a character string. 
+
+   o	Changed sane and dfsane internal usage of do.call() to use a
+   	function rather than a character string. 
+
+   o	Added argument alertConvergence to spg(), sane() and dfsane() and
+   	default to issue a warning if convergence is not obtained.
+
+   o	Added files in inst/slowTests.
+
+   o	Reverted back to solve.QP from quadprog because of some failures in the 
+   	special version added in 2014.1-1.
+
+   o	Changed conditional require() in some functions to requireNamespace().
+
+   o	Removed unused geval from spg() and documented that geval is equal 
+   	to iter.
+
+   o	Fixed NAMESPACE to import optim from stats.
+
+   o	Adjusted BB vignette text regarding a dfsane() failure and revised
+   	commentary on multiStart results.
+
 Changes in BB version 2014.1-1
 
    o	Added a special version of solve.QP and removed quadprog from Imports.

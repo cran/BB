@@ -3,7 +3,8 @@
 \title{ Solving Large-Scale Nonlinear System of Equations}
 \description{Derivative-Free Spectral Approach for solving nonlinear systems of equations}
 \usage{
-  dfsane(par, fn, method=2, control=list(), quiet=FALSE, ...) 
+  dfsane(par, fn, method=2, control=list(),
+         quiet=FALSE, alertConvergence=TRUE, ...) 
  }
 \arguments{
     \item{fn}{a function that takes a real vector as argument and  returns a real vector of same length (see details).}
@@ -21,6 +22,10 @@
     Note that the \code{control} variable \code{trace} and \code{quiet} 
     affect different printing, so if \code{trace} is not set to \code{FALSE} 
     there will be considerable printed output.}
+ 
+    \item{alertConvergence}{A logical variable. With the default \code{TRUE}
+    a warning is issued if convergence is not obtained. When set to \code{FALSE}
+    the warning is suppressed.}
  
     \item{...}{Additional arguments passed to \code{fn}.} 
 }

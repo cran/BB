@@ -1,5 +1,5 @@
-BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL, 
-     lower=-Inf, upper=Inf, projectArgs=NULL,
+BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), 
+     lower=-Inf, upper=Inf, project=NULL, projectArgs=NULL,
      control=list(), quiet=FALSE, ...) 
     {
     ctrl <- list(maxit = 1500, M = c(50, 10), ftol=1.e-10, gtol = 1e-05, maxfeval = 10000, 
@@ -30,8 +30,9 @@ BBoptim <- function(par, fn, gr=NULL, method=c(2,3,1), project=NULL,
 	            lower=lower, upper=upper, projectArgs=projectArgs, 
 		    control=list(M=as.numeric(cpars[2]), maxit=maxit, 
 		       maximize=maximize, trace=trace, triter=triter, 
-		       maxfeval=maxfeval, eps=eps, gtol=gtol, ftol=ftol, checkGrad=checkGrad),
-		    quiet=quiet, ...),    silent=TRUE)
+		       maxfeval=maxfeval, eps=eps, gtol=gtol, ftol=ftol,
+		       checkGrad=checkGrad),
+		    quiet=quiet, alertConvergence=FALSE, ...),    silent=TRUE)
 
       if (!inherits(temp, "try-error")) {
    	 feval <- feval + temp$feval
