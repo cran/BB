@@ -68,7 +68,7 @@ spg <- function(par, fn, gr=NULL, method=3, lower=-Inf, upper=Inf,
   # control defaults
   # Added `ftol' to the control list:  RV change on 02-06-2011 
   ctrl <- list(M=10, maxit=1500, ftol=1.e-10, gtol=1.e-05, maxfeval=10000, maximize=FALSE, 
-        trace=TRUE, triter=10, quiet=FALSE, eps=1e-7, checkGrad=NULL, checkGrad.tol=1.e-06) 
+        trace=!quiet, triter=10, eps=1e-7, checkGrad=NULL, checkGrad.tol=1.e-06) 
   namc <- names(control)
   if (! all(namc %in% names(ctrl)) )
      stop("unknown names in control: ", namc[!(namc %in% names(ctrl))])     
@@ -76,8 +76,8 @@ spg <- function(par, fn, gr=NULL, method=3, lower=-Inf, upper=Inf,
   ctrl[namc ] <- control
   M	   <- ctrl$M
   maxit    <- ctrl$maxit
-  gtol     <- ctrl$gtol
   ftol     <- ctrl$ftol     # RV change on 02-06-2011
+  gtol     <- ctrl$gtol
   maxfeval <- ctrl$maxfeval
   maximize <- ctrl$maximize
   trace    <- ctrl$trace
@@ -97,7 +97,7 @@ spg <- function(par, fn, gr=NULL, method=3, lower=-Inf, upper=Inf,
   # and use the timing to decide if the analytic gradient should be checked.
   # c() in next is for case of a 1x1 matrix value
 
-  f.time <- system.time(f <- try(func(par, ...),silent=TRUE))
+  f.time <- system.time(f <- try(func(par, ...),silent=TRUE), gcFirst=FALSE)
   feval <- 1
   
   # set the default for checking the gradient based on how long

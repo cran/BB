@@ -906,7 +906,7 @@ For each starting value, \code{multiStart} calls either \code{BBsolve}
 or \code{BBoptim}.   
 
 We now illustrate how to use \code{multiStart} to find multiple roots.  
-We consider a system of high-degree polynomial equations \citep{Kearfoot87}, 
+We consider a system of high-degree polynomial equations \citep{Kearfott87}, 
 comprising 3 equations in 3 variables.  
 It has 12 real roots and 126 complex roots.  Here we find all the 12 roots.
 

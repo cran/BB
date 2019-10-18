@@ -20,38 +20,50 @@ b <- c(1, 0)
 #  bvec = b - c(A %*% par),  : 
 #  Error in projection
 
-ans <- spg(par=p0, fn=rosbkext.f, project="projectLinear", projectArgs=list(A=Amat, b=b, meq=1)) 
+ans <- spg(par=p0, fn=rosbkext.f, project="projectLinear", 
+   projectArgs=list(A=Amat, b=b, meq=1), 
+   control=list(maxit=2500, ftol=1e-14, gtol = 1.e-10)) 
 
-fuzz <- 5e-7
 
-if(fuzz < max(abs(ans$par -
-   c(5.46001058136910467e-01,  3.00133145466337903e-01,  9.30077533280728036e-02,
-     1.18680513875347674e-02,  3.38851273609307169e-03,  3.25955271864946869e-03,
-     3.25870517822328398e-03,  3.25869904467344929e-03,  3.25870153610197805e-03,
-     3.25869504035516781e-03,  3.25869964139831152e-03,  3.25870210072135361e-03,
-     3.25869386108257157e-03,  3.25870148633357684e-03,  3.25869879980698884e-03,
-     3.25869926113893892e-03,  3.25869852720016805e-03,  3.25856193090499902e-03,
-     3.23766981846091914e-03, -6.09863722023096244e-19)))){	
+delta <- ans$par -   c(
+  5.46001058136910467e-01,  3.00133145466337903e-01,  9.30077533280728036e-02,
+  1.18680513875347674e-02,  3.38851273609307169e-03,  3.25955271864946869e-03, 	   3.25870517822328398e-03,  3.25869904467344929e-03,  3.25870153610197805e-03, 	   3.25869504035516781e-03,  3.25869964139831152e-03,  3.25870210072135361e-03, 	   3.25869386108257157e-03,  3.25870148633357684e-03,  3.25869879980698884e-03, 	   3.25869926113893892e-03,  3.25869852720016805e-03,  3.25856193090499902e-03, 	   3.23766981846091914e-03, -6.09863722023096244e-19)
+
+if(1e-5 < max(abs((delta)))){	
+   cat("ans$par:\n")
    print(ans$par, digits=18)
    cat("difference:\n")
-   print(ans$par -   
-   c(5.46001058136910467e-01,  3.00133145466337903e-01,  9.30077533280728036e-02,
-     1.18680513875347674e-02,  3.38851273609307169e-03,  3.25955271864946869e-03,
-     3.25870517822328398e-03,  3.25869904467344929e-03,  3.25870153610197805e-03,
-     3.25869504035516781e-03,  3.25869964139831152e-03,  3.25870210072135361e-03,
-     3.25869386108257157e-03,  3.25870148633357684e-03,  3.25869879980698884e-03,
-     3.25869926113893892e-03,  3.25869852720016805e-03,  3.25856193090499902e-03,
-     3.23766981846091914e-03, -6.09863722023096244e-19),
-    digits=18)
+   print(delta , digits=18)
    stop("converged to different parameter values!")
    }
 
-if(fuzz < max(abs(ans$value - 17.4152583859326917))){
+if(1e-12 < max(abs(ans$value - 17.4152583858026482 ))){
+   cat("ans$value\n")
    print(ans$value, digits=18)
    stop("converged to different function value!")
    }
 
+if(1e-12 < abs(sum(ans$par) -  1.0 )){	
+   cat("ans$par:\n")
+   print(ans$par, digits=18)
+   cat("constraint sum to 1.0 not satified. Value:\n")
+   print(sum(ans$par) , digits=18)
+   stop("constraint sum to 1.0 not satified!")
+   }
+
+if((0.0 - 1e-12) > ans$par[length(ans$par)]){	
+   cat("ans$par:\n")
+   print(ans$par, digits=18)
+   cat("last parameter positive not satified. Value:\n")
+   print(ans$par[length(ans$par)] , digits=18)
+   stop("constraint sum to 1.0 not satified!")
+   }
+
 ans
+
+# 2014 version and previous gave following (not very different) but was 
+#  indicating convergence when it had not really been obtained.
+#  Controls ftol and gtol have been tightened.
 # $par
 #  [1]  5.460011e-01  3.001331e-01  9.300775e-02  1.186805e-02  3.388513e-03
 #  [6]  3.259553e-03  3.258705e-03  3.258699e-03  3.258702e-03  3.258695e-03

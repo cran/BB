@@ -1,3 +1,22 @@
+Changes in BB version 2019.10-1
+
+   o	Fixed Rbuildignore so that files from building vignettes are 
+    	not omitted in the package build.	
+
+Changes in BB version 2015.12-1
+
+   o	Added gcFirst=FALSE in spg timing test. In certain cases, especially
+   	simulation, gc added significantly to execution time. (Suggested 
+	by Torsten Hothorn.)
+
+   o	Changed default control(trace=!quite) from TRUE so the user does not
+   	need to specify trace=FALSE when quiet=TRUE is specified.
+
+   o	Fix so that an error will be generated if quiet is added to
+   	the control list rather than specified as an argument. (It was
+	previously silently ignored.) Some minor clarification in the 
+	documentation.
+
 Changes in BB version 2014.10-1
 
    o	Added optional lower and upper for projectLinear when called from spg.

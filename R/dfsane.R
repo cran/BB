@@ -1,20 +1,22 @@
 dfsane <- function (par, fn, method = 2, control = list(), 
                     quiet=FALSE, alertConvergence=TRUE, ...) 
 {
-    ctrl <- list(maxit = 1500, M = 10, tol = 1e-07, trace = TRUE, 
-        triter = 10, quiet=FALSE, noimp = 100, NM=FALSE, BFGS=FALSE)
+    ctrl <- list(maxit = 1500, M = 10, tol = 1e-07, trace = !quiet, 
+        triter = 10, noimp = 100, NM=FALSE, BFGS=FALSE)
     namc <- names(control)
     if (!all(namc %in% names(ctrl))) 
         stop("unknown names in control: ", namc[!(namc %in% names(ctrl))])
+
     ctrl[namc] <- control
-    M <- ctrl$M
     maxit <- ctrl$maxit
+    M <- ctrl$M
     tol <- ctrl$tol
     trace <- ctrl$trace
     triter <- ctrl$triter
     noimp <- ctrl$noimp
     NM <- ctrl$NM
     BFGS <- ctrl$BFGS
+
     fargs <- list(...)
 
 ####

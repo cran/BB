@@ -6,7 +6,7 @@ test.rng <- list(kind="Mersenne-Twister", normal.kind="Inversion", seed=1234)
 old.seed <- setRNG(test.rng)
 
 
-# A high-degree polynomial system (R.B. Kearfoot, ACM 1987)
+# A high-degree polynomial system (R.B. Kearfott, ACM 1987)
 # There are 12 real roots (and 126 complex roots to this system!)
 #
 hdp <- function(x) {

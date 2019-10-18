@@ -32,7 +32,7 @@ dim(ans.df) # note that only 69 successes
 
 # BBsolve() 
 ans <- multiStart(par=p0, fn=hdp)
-sum(ans$conv)  # number of successful runs = 190
+sum(ans$conv)  # number of successful runs
 pmat <- ans$par[ans$conv, ] # selecting only converged solutions
 pc <- princomp(pmat)
 

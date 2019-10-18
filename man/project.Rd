@@ -30,8 +30,6 @@ The first `meq' rows of A and the first `meq' elements of b correspond
 to equality constraints.
 }
 
-\note{We are grateful to Berwin Turlach for creating a special version of solve.QP function that is specifically tailored to solving the projection problem.}
-
 \seealso{
   \code{\link{spg}}
 }  

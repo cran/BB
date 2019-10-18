@@ -19,7 +19,7 @@
     \item{quiet}{A logical variable (TRUE/FALSE). If \code{TRUE} warnings 
     and some additional information printing are suppressed.  
     Default is \code{quiet = FALSE}
-    Note that the \code{control} variable \code{trace} and \code{quiet} 
+    Note that \code{quiet} and the \code{control} variable \code{trace}
     affect different printing, so if \code{trace} is not set to \code{FALSE} 
     there will be considerable printed output.}
  
@@ -94,7 +94,7 @@ Default is \code{tol = 1.e-07}.}
 
 \item{trace}{A logical variable (TRUE/FALSE).  If \code{TRUE}, information on 
 the progress of solving the system is produced.  
-Default is \code{trace = TRUE}.}
+Default is \code{trace = !quiet}.}
 
 \item{triter}{An integer that controls the frequency of tracing when 
 \code{trace=TRUE}. Default is \code{triter=10}, which means that

@@ -171,8 +171,11 @@ x2 <- x[2]
 p0 <- c(0.4, 0.94)    # need feasible starting point
 
 r6 <- spg(par=p0, fn=fr,  lower=c(-0.6, -Inf), upper=c(0.6, Inf),
-  project="projectLinear", projectArgs=list(A=matrix(1, 1, 2), b=1, meq=1)) 
+  project="projectLinear", projectArgs=list(A=matrix(1, 1, 2), b=1, meq=1),
+  control=list(maxit=5000)) 
 
+   print(r6$value, digits=18)
+   print(r6$par, digits=18)
 
 if(fuzz < max(abs(r6$par - c( 0.599999994039535522, 0.400000005960464478)))){
    print(r6$par, digits=18)
